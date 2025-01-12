@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paul Jablonski</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+  
+  
+<body>
+  <div class="container">
+    <div id="animation-background"></div>
+    <div class="content-wrapper">
+      
+      <section class="landing">
+        <div class="name">
+          <h1>Paul Jablonski</h1>
+          <p>Computer Engineer | UIUC Graduate</p>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#" id="home-link" onclick="showContent('home')">Home</a></li>
+            <li><a href="#" id="projects-link" onclick="showContent('projects')">Projects</a></li>
+            <li><a href="#" id="experience-link" onclick="showContent('experience')">Experience</a></li>
+            <li><a href="#" id="contact-link" onclick="showContent('contact')">Contact</a></li>
+          </ul>
+        </nav>
+      </section>
+      
+      <section id="content-section">
+        
+        <div id="home" class="content">
+          <div class="profile-image">
+            <img src="PFP.png" alt="Profile picture" class="circular-image">
+          </div>
+          <h2>Welcome to My Portfolio</h2>
+          <p>I am an upcoming Computer Engineering graduate interested in computing systems and its adjacent fields.</p>
+          <p style="margin-top: -15px;">More particularly, FPGA development, embedded systems, and quantum computing.</p>
+          <p>This website I've created from scratch serves to showcase my work and experience.</p>
+        </div>
+        
+        <div id="projects" class="content">
+            <div class="projects-grid">
+              
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Audio%20Nexus')">
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Nexus.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <h3>FPGA Audio Nexus</h3>
+                  <p>Jan 2025 - Current</p>
+              </div>
+
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System')">
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Security.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <h3>Android Embedded Security System</h3>
+                  <p>Aug 2024 - Dec 2024</p>
+              </div>
+
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy')">
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Cat.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <h3>Laser & Voice Assisted Cat Toy</h3>
+                  <p>Aug 2024 - Dec 2024</p>
+              </div>
+
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics')">
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Harmonics.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <h3>Illini Harmonics</h3>
+                  <p>Jan 2024 - May 2024</p>
+              </div>
+
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads')">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" class="icon">
+                        <img src="icons/FPGA.svg" alt="" class="icon">
+                    </svg>
+                </div>
+                <h3>FPGA Soccer Heads</h3>
+                <p>Sep 2023 - Dec 2023</p>
+            </div>
+
+              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition')">
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Handwriting.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <h3>Handwritten Text Recognition</h3>
+                  <p>Sep 2023 - Oct 2023</p>
+              </div>
+              
+          </div>
+        </div>
+        
+        <div id="experience" class="content">
+            <div class="experience-section">
+                <h3 class="section-title">Professional Experience</h3>
+
+                <div class="experience-entry">
+                    <h4 class="entry-title">Data Annotation | Software Developer</h4>
+                    <p class="entry-period">April 2024 - Present</p>
+                    <ul class="entry-details">
+                        <li>• Worked with over 20 AI coding models from contracted companies, improving model efficiency and accuracy</li>
+                        <li>• Involves developing multilingual software for machine learning, debugging generated code, and refactoring code</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-section">
+                <h3 class="section-title">Research Experience</h3>
+
+                <div class="experience-entry">
+                    <h4 class="entry-title">FPGA Audio Nexus | FPGA / Embedded DSP</h4>
+                    <p class="entry-period">December 2024 - Present</p>
+                    <ul class="entry-details">
+                        <li>• Working with Associate Professor Thomas Moon to develop modular noise cancellation and audio operations device</li>
+                        <li>• FPGA device that transforms any pair of headphones via noise cancellation, audio passthrough, and level processing</li>
+                    </ul>
+                </div>
+
+                <div class="experience-entry">
+                    <h4 class="entry-title">PURE Research Mentorship | Aerospace / Data Programming</h4>
+                    <p class="entry-period">August 2022 - January 2023</p>
+                    <ul class="entry-details">
+                        <li>• Worked under PhD alongside a 10-person research team to develop aerospace research regarding wind tunnels</li>
+                        <li>• Specifically aided in applying sorting algorithms and data conversion techniques in Python for research data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="contact" class="content">
+          <div class="contact-links">
+              <a onclick="window.open('https://www.linkedin.com/in/pauljohnjablonski/')" class="contact-card" data-arrow='true'>
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/LinkedIn.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <span class="contact-text">LinkedIn</span>
+              </a>
+
+              <a class="contact-card" data-arrow='false'>
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Email.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <span class="contact-text">pauljohnjablonski@gmail.com</span>
+              </a>
+            
+              <a class="contact-card" data-arrow='false'>
+                  <div class="card-icon">
+                      <svg viewBox="0 0 24 24" class="icon">
+                          <img src="icons/Number.svg" alt="" class="icon">
+                      </svg>
+                  </div>
+                  <span class="contact-text">(224) 875-2504</span>
+              </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <div class="copyright">&copy; Paul Jablonski</div>
+  
+  <script src="animation.js"></script>
+  <script src="content.js"></script>
+</body>
+</html>
