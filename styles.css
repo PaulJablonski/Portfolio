@@ -433,9 +433,6 @@ nav ul li a:hover::before {
   font-fay: 'Roboto', sans-serif;
 }
 
-
-
-/* Mobile */
 @media screen and (max-width: 768px) {
   html, body {
     height: auto;
