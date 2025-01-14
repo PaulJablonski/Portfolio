@@ -433,6 +433,9 @@ nav ul li a:hover::before {
   font-fay: 'Roboto', sans-serif;
 }
 
+
+
+/* Mobile */
 @media screen and (max-width: 768px) {
   html, body {
     height: auto;
@@ -579,7 +582,7 @@ nav ul li a:hover::before {
   .project-card::after {
       content: '➚';
       position: absolute;
-      top: 0.8rem;
+      top: 0.9rem;
       right: 1rem;
       font-size: 1.1rem;
       color: rgba(255, 255, 255, 0.6);
@@ -591,7 +594,7 @@ nav ul li a:hover::before {
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .card-icon {
@@ -619,7 +622,7 @@ nav ul li a:hover::before {
       display: block;
       font-size: 0.7rem;
       width: 50%;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0rem;
       text-align: left;
       align-items: center;
   }
@@ -627,8 +630,8 @@ nav ul li a:hover::before {
   .project-card p {
       display: block;
       width: 20%;
+      align-items: center;
       font-size: 0.55rem;
-      margin-top: 40%;
       margin-bottom: 0;
       text-align: left;
   }
