@@ -149,7 +149,7 @@ nav ul li a:hover::before {
   color: #808080;
   font-weight: 300;
   margin-bottom: 1rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .profile-container {
@@ -430,8 +430,285 @@ nav ul li a:hover::before {
   right: 2.5rem;
   font-size: 0.65rem;
   color: #808080;
-  font-family: 'Roboto', sans-serif;
+  font-fay: 'Roboto', sans-serif;
 }
 
 
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+  html, body {
+    height: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: none; 
+  }
+
+  .container {
+    height: calc(100vh - 40px);
+    margin: 20px;
+    min-height: 80vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    perspective: 1px;
+    perspective-origin: center top;
+    transform-style: preserve-3d;
+  }
+
+  #animation-background {
+    position: flex;
+    height: calc(100vh - 80px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: translateZ(-1px) scale(2) translateY(150px);
+    z-index: 1;
+  }
+  
+  .copyright {
+    display: none;
+  }
+
+  .content-wrapper {
+    padding: 1rem;
+    height: auto;
+    min-height: 100%;
+    position: relative;
+    background: transparent;
+    transform: translateZ(5);
+  }
+  
+  .content h2 {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+  }
+  
+  .content p {
+    font-family: 'Roboto', sans-serif;
+    color: #808080;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .landing {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .name {
+    padding-left: 0;
+    margin-bottom: 0rem;
+  }
+
+  .name h1 {
+    font-size: 1.5rem;
+  }
+
+  nav {
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+
+  nav ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  nav ul li {
+    margin: 0;
+  }
+
+  nav ul li a {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.5rem;
+  }
+
+  #content-section {
+    position: relative;
+    text-align: center;
+    top: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 2rem;
+    max-height: none;
+  }
+
+  .content {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .content.active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    height: auto;
+    margin-bottom: 2rem;
+  }
+
+  .profile-image {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .circular-image {
+    width: 150px;
+    height: 150px;
+  }
+
+  .projects-grid {
+    margin-top: 0;
+    grid-template-columns: 1fr;
+    padding: 0;
+    gap: 0.6rem;
+  }
+  
+  .project-card::after {
+      content: '➚';
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.3s ease;
+  }
+
+  .project-card {
+    padding: 0.75rem;  
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .card-icon {
+    width: 36px; 
+    height: 36px;
+    margin-bottom: 0;  
+    flex-shrink: 0; 
+  }
+
+  .card-icon .icon {
+    width: 20px;     
+    height: 20px;
+    margin-right: 10; 
+  }
+
+  .project-card .text-content {
+    flex: 1;
+    text-align: left;
+    flex-direction: column;
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .project-card h3 {
+      display: block;
+      font-size: 0.7rem;
+      width: 50%;
+      margin-bottom: 0.25rem;
+      text-align: left;
+      align-items: center;
+  }
+
+  .project-card p {
+      display: block;
+      width: 20%;
+      font-size: 0.55rem;
+      margin-bottom: 0;
+      text-align: left;
+  }
+
+  #experience.content {
+    margin-top: 0;
+  }
+
+  .experience-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .experience-entry {
+    padding-left: 1rem;
+  }
+  
+  .entry-details li {
+    margin-bottom: 0.5rem;
+    font-size: 0.5rem;
+  }
+  
+  .entry-title {
+    font-family: 'Work Sans', sans-serif;
+    margin-top: -10px;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+  }
+
+  #contact.content {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  
+  .section-title {
+    display: None;
+  }
+  
+  .contact-card[data-arrow="true"]::after {
+      content: '➚';
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.3s ease;
+  }
+
+  .contact-links {
+    max-width: 100%;
+    margin-top: 0;
+  }
+
+  .contact-text {
+    font-size: 0.85rem;
+    word-break: break-word;
+  }
+  
+  .contact-card .card-icon {
+      width: 36px;  
+      height: 36px;
+      margin: 0;    
+  }
+
+  .contact-card .icon {
+      width: 20px;  
+      height: 20px;
+      position: relative;
+      margin-right: 10px;
+      margin-top: 2px;
+  }
+
+  .copyright {
+    position: relative;
+    text-align: center;
+    padding: 1rem 0;
+    right: 0;
+    bottom: 0;
+  }
 }
