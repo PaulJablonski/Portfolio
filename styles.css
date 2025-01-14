@@ -458,7 +458,7 @@ nav ul li a:hover::before {
     left: 0;
     width: 100%;
     height: 100vh;
-    transform: translateZ(-1px) scale(2) translateY(150px);
+    transform: translateZ(-1px) scale(2.5) translateY(150px);
     z-index: 1;
   }
   
