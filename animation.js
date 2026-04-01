@@ -3,6 +3,10 @@ const particleCount = 7000;
 let mouse = new THREE.Vector2(0, 0);
 let target = new THREE.Vector2(0, 0);
 
+// New variables for the loading state
+let isLoaded = false;
+let loadProgress = 0.0;
+
 function init() {
     scene = new THREE.Scene();
     
@@ -44,9 +48,7 @@ function init() {
         const z = (Math.random() - 0.5) * 2;
         
         positions.push(x, y, z);
-        // Increased opacity range: now 0.2 to 0.5 (was 0.1 to 0.3)
         opacities.push(Math.random() * 0.3 + 0.2);
-        // Increased size range slightly
         sizes.push(Math.random() * 0.04 + 0.02);
         randoms.push(
             Math.random() * 2 - 1,
@@ -64,7 +66,8 @@ function init() {
         transparent: true,
         uniforms: {
             time: { value: 0 },
-            mouse: { value: new THREE.Vector2(0, 0) }
+            mouse: { value: new THREE.Vector2(0, 0) },
+            uLoadProgress: { value: 0.0 } // Added uniform
         },
         vertexShader: `
             attribute float opacity;
@@ -73,6 +76,7 @@ function init() {
             
             uniform float time;
             uniform vec2 mouse;
+            uniform float uLoadProgress;
             
             varying float vOpacity;
             
@@ -80,13 +84,33 @@ function init() {
                 vOpacity = opacity;
                 
                 vec3 pos = position;
+                
+                // --- Loading Swirl Logic ---
+                // Calculate a circular pattern using the random values
+                float angle = (random.x * 6.28318) + (time * (1.2 + random.z * 1.5));
+                float radius = (abs(random.y) * 4.0 + random.z * 1.5) + 0.8;
+                float wobble = sin(time * 2.0 + random.z * 8.0) * 0.4;
+                radius += wobble;
+                vec3 swirlPos = vec3(cos(angle) * radius, sin(angle) * radius + sin(time + random.x * 5.0) * 0.3, pos.z);
+                
+                float isLoose = step(0.8, random.z); // ~20% are loose
+                vec3 frozenPos = vec3(random.x * 12.0, random.y * 8.0, pos.z); // float in place
+                vec3 blended = mix(swirlPos, pos, uLoadProgress);
+                pos = mix(blended, frozenPos, isLoose);
+                
+                // Easing between the swirl state (0.0) and the resting scatter state (1.0)
+                pos = mix(swirlPos, pos, uLoadProgress);
+                // ---------------------------
+                
                 float dist = distance(mouse, pos.xy);
                 
+                // Apply subtle wave movement
                 float movement = sin(time * 0.5 + random.z * 12.28) * 0.1;
                 pos.x += movement * random.x;
                 pos.y += movement * random.y;
                 
-                float mouseInfluence = 1.0 - min(dist * 0.1, 1.2);
+                // Mouse influence (scaled by uLoadProgress so it doesn't affect the initial swirl)
+                float mouseInfluence = (1.0 - min(dist * 0.1, 1.2)) * uLoadProgress;
                 vec2 mouseDir = normalize(pos.xy - mouse);
                 pos.xy += mouseDir * mouseInfluence * 0.5;
                 
@@ -144,12 +168,20 @@ function onWindowResize() {
 function animate() {
     requestAnimationFrame(animate);
     
+    // Ease the load progress towards 1.0 to create the outward burst
+    if (isLoaded && loadProgress < 1.0) {
+        // Higher multiplier (e.g., 0.04) = faster burst
+        loadProgress += (1.0 - loadProgress) * 0.008;
+        if (loadProgress > 0.999) loadProgress = 1.0;
+    }
+    
     mouse.x += (target.x - mouse.x) * 0.1;
     mouse.y += (target.y - mouse.y) * 0.1;
     
     if (particles) {
         particles.material.uniforms.time.value = performance.now() * 0.001;
         particles.material.uniforms.mouse.value = mouse;
+        particles.material.uniforms.uLoadProgress.value = loadProgress;
     }
     
     renderer.render(scene, camera);
@@ -158,5 +190,10 @@ function animate() {
 document.addEventListener('DOMContentLoaded', () => {
     init();
     animate();
+    
+    // Hold the loading state for 1.8 seconds, then burst
+    setTimeout(() => {
+        isLoaded = true;
+        document.body.classList.remove('is-loading'); // ← text vanishes instantly (burst starts)
+    }, 2800);
 });
-

@@ -4,187 +4,1266 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paul Jablonski</title>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400&display=swap" rel="stylesheet">
   <meta property="og:image" content="Preview.png">
   <meta name="theme-color" content="#111111">
-  <link rel="stylesheet" href="styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111111;
+      --fg: #f0f0f0;
+      --muted: #c0c0c0;
+      --accent: #ffffff;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.12);
+      --nav-width: 286px;
+    }
+
+    html { scroll-behavior: smooth; 
+           scrollbar-gutter: stable;}
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 200;
+      overflow-x: hidden;
+    }
+
+    /* ── Loading State ── */
+    body.is-loading {
+      overflow: hidden;
+      height: 100vh; /* Strictly lock scrolling */
+    }
+
+    /* Hide while loading */
+    body.is-loading .main,
+    body.is-loading .side-nav,
+    body.is-loading .scroll-indicator,
+    body.is-loading .copyright {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(15px);
+    }
+
+    /* Fade in with delay after burst */
+    .main, .side-nav, .scroll-indicator, .copyright {
+      transition: opacity 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s,
+                  transform 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s;
+    }
+
+    /* Blinking Loading Text */
+    #loading-text {
+      position: fixed;
+      top: 75%; /* Slightly below the particle swirl */
+      left: 50.2%;
+      transform: translate(-50%, -50%);
+      font-size: 13px;
+      letter-spacing: 0.4em;
+      font-weight: 300;
+      color: var(--muted);
+      z-index: 200;
+      animation: pulse 1s infinite alternate;
+      transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.0s;
+      pointer-events: none;
+    }
+
+    body:not(.is-loading) #loading-text {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.2; }
+      100% { opacity: 1; }
+    } 
+
+    /* ── Three.js background ── */
+    #animation-background {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Fixed left nav ── */
+    .side-nav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--nav-width);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 53px;
+      z-index: 100;
+    }
+
+    .side-nav .site-name {
+      font-size: 17px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 57px;
+    }
+
+    .side-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .side-nav ul li {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .side-nav ul li a {
+      display: block;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 9px 0 6px;
+      transition: color 0.3s ease, font-size 0.3s ease, letter-spacing 0.3s ease;
+      position: relative;
+    }
+
+    .side-nav ul li a::before {
+      content: '∙';
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .side-nav ul li a.active {
+      color: var(--accent);
+      font-size: 21px;
+      letter-spacing: 0.1em;
+    }
+
+    .side-nav ul li a.active::before {
+      opacity: 1;
+    }
+
+    /* ── Nav preview image strip ── */
+    .nav-preview {
+      width: calc(var(--nav-width) - 53px);
+      height: 52px;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+      opacity: 0;
+      max-height: 0;
+      margin-bottom: 0;
+      transition:
+        opacity 0.4s ease,
+        max-height 0.4s ease,
+        margin-bottom 0.4s ease;
+      pointer-events: none;
+    }
+
+    .nav-preview.visible {
+      opacity: 1;
+      max-height: 52px;
+      margin-bottom: 8px;
+    }
+
+    .nav-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .nav-preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(17, 17, 17, 0) 50%,
+        rgba(17, 17, 17, 1) 100%  /* ← full opacity */
+      );
+      pointer-events: none;
+    }
+
+    /* ── Scroll indicator ── */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    .scroll-indicator.hidden { opacity: 0; }
+
+    .scroll-indicator span {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-chevron {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+
+    .scroll-chevron svg {
+      width: 20px;
+      height: 12px;
+      opacity: 0.7;
+    }
+
+    .scroll-chevron svg:nth-child(2) {
+      opacity: 0.4;
+      margin-top: -4px;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ── Main content area ── */
+    .main {
+      margin-left: var(--nav-width);
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ── Sections ── */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 110px 88px;
+      position: relative;
+    }
+
+    section + section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 88px;
+      right: 88px;
+      height: 1px;
+      background: var(--card-border);
+    }
+
+    .section-inner {
+      width: 100%;
+      max-width: 860px;
+    }
+
+    /* ── Landing / Hero ── */
+    .hero-top {
+      display: flex;
+      align-items: center;
+      gap: 44px;
+      margin-bottom: 36px;
+    }
+
+    .profile-image img {
+      width: 185px;
+      height: 185px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--card-border);
+      filter: grayscale(15%);
+      flex-shrink: 0;
+    }
+
+    #home .hero-label {
+      font-size: 18px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color:  rgba(255, 255, 255, 0.699);
+      margin-bottom: 11px;
+    }
+
+    #home h1 {
+      font-size: clamp(46px, 6vw, 86px);
+      font-weight: 200;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+    }
+
+    .hero-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero-title-pill {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 11px;
+    }
+
+    .hero-title-pill .pill-role {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--fg);
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title-pill .pill-sep {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.705);
+    }
+
+    .hero-title-pill .pill-org {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .bio-text {
+        margin-top: 44px;
+        padding-top: 40px;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        justify-content: center;
+    }
+
+    .who-am-i {
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 200;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--fg);
+        text-align: center;
+        opacity: 0.85;
+        border: 1px solid var(--card-border);
+        padding: 18px 48px;
+        border-radius: 6px;
+        background: var(--card-bg);
+        transition: border-color 0.3s, opacity 0.3s;
+    }
+
+    .who-am-i:hover {
+        border-color: rgba(255,255,255,0.28);
+        opacity: 1;
+    }
+
+    /* ── Home skills strip ── */
+    .home-skills {
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .home-skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .skill-chip {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 5px 13px;
+      background: var(--card-bg);
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .skill-chip:hover {
+      border-color: rgba(255,255,255,0.28);
+      color: var(--fg);
+    }
+
+    /* ── About Me section ── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    #about .about-photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #about .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%);
+    }
+
+    #about .about-photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.25;
+    }
+
+    #about .about-photo-placeholder svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    #about .about-photo-placeholder span {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    #about .about-text {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    #about .about-text h2 {
+      font-size: 38px;
+      font-weight: 200;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      color: var(--fg);
+    }
+
+    #about .about-bio p {
+      font-size: 17px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    #about .about-bio p + p { margin-top: 14px; }
+
+    #about .hobbies-block {
+      border-top: 1px solid var(--card-border);
+      padding-top: 28px;
+    }
+
+    #about .hobbies-label {
+      font-size: 18px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color:  rgba(255, 255, 255, 0.699);
+      margin-bottom: 18px;
+      opacity: 0.6;
+    }
+
+    .hobbies-block.hobbies-full {
+        margin-top: 36px;
+        padding-top: 28px;
+        border-top: 1px solid var(--card-border);
+    }
+
+    /* ── Education section ── */
+    .education-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .education-entry {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 31px 35px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .education-entry .edu-degree {
+      font-size: 21px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      color: var(--fg);
+    }
+
+    .education-entry .edu-school {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .education-entry .edu-period {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-size: 18px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color:  rgba(255, 255, 255, 0.699);
+      margin-bottom: 57px;
+    }
+
+    /* ── Projects list ── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card.active {
+      transform: scale(1.06);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .project-card.active:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.25);
+      transform: scale(1.07) translateY(-3px);
+    }
+
+    .project-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      transform: scale(1.01) translateY(-3px);
+    }
+
+    .project-preview {
+      width: 100%;
+      height: 110px; 
+      transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .project-card.active .project-preview {
+      height: 220px;  /* expanded */
+    }
+
+    .project-preview img {
+      width: 100%;
+      height: 100%;
+      opacity: 70%;
+      object-fit: cover;
+      display: block;
+      filter: blur(2px) brightness(0.7);
+      transition: filter 0.6s ease, transform 0.4s ease;
+    }
+
+    .project-card.active .project-preview img {
+      filter: blur(0px) brightness(1);
+    }
+
+    .project-card:hover .project-preview img {
+      transform: scale(1.01);
+    }
+
+    .project-preview-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .project-preview-placeholder .card-icon {
+      width: 52px;
+      height: 52px;
+      opacity: 0.3;
+    }
+
+    .project-preview-placeholder .card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .project-body {
+      padding: 31px 35px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .project-body .card-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+
+    .project-body .card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.7);
+    }
+
+    .project-info h3 {
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      margin-bottom: 7px;
+      color: var(--fg);
+    }
+
+    .project-info p {
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Experience ── */
+    .experience-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .experience-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      min-height: 200px;
+    }
+
+    /* Image column — left by default */
+    .exp-photo {
+      width: 260px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border-right: 1px solid var(--card-border);
+      position: relative;
+    }
+
+    .exp-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .exp-photo.no-image {
+      display: none;
+    }
+
+    /* Image on the right */
+    .experience-card.img-right .exp-photo {
+      order: 2;
+      border-right: none;
+      border-left: 1px solid var(--card-border);
+    }
+
+    .experience-card.img-right .exp-card-body {
+      order: 1;
+    }
+
+    .exp-card-body {
+      padding: 31px 35px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .exp-card-body h4 {
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      color: var(--fg);
+    }
+
+    .exp-card-body .entry-period {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .exp-card-body ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: 6px;
+    }
+
+    .exp-card-body ul li {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── Contact ── */
+    .contact-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 26px 31px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--fg);
+      transition: background 0.25s, border-color 0.25s;
+      max-width: 560px;
+    }
+
+    .contact-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .contact-card .card-icon {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+    }
+
+    .contact-card .card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.6);
+    }
+
+    .contact-card .contact-text {
+      font-size: 19px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Copyright ── */
+    .copyright {
+      position: fixed;
+      bottom: 20px;
+      right: 32px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.2);
+      z-index: 100;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      #about .about-grid { grid-template-columns: 1fr; }
+      #about .about-photo { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      :root { --nav-width: 0px; }
+      .side-nav { display: none; }
+      .main { margin-left: 0; }
+      section { padding: 60px 28px; }
+      .experience-card,
+      .experience-card.img-right { flex-direction: column; }
+      .exp-photo {
+        width: 100%;
+        height: 160px;
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid var(--card-border);
+        order: 0 !important;
+      }
+      .exp-card-body { order: 1 !important; }
+    }
+  </style>
 </head>
-  
-  
-<body>
-  <div class="container">
-    <div id="animation-background"></div>
-    <div class="content-wrapper">
-      
-      <section class="landing">
-        <div class="name">
-          <h1>Paul Jablonski</h1>
-          <p>M.S. ECE Student @ Georgia Tech | B.S. Computer Engineering @ UIUC</p>
+
+<body class="is-loading">
+
+  <div id="loading-text">LOADING...</div>
+
+  <div id="animation-background"></div>
+
+  <!-- Fixed left nav -->
+  <nav class="side-nav">
+    <span class="site-name">Paul Jablonski</span>
+    <ul>
+      <li>
+        <a href="#home" class="nav-link" data-section="home">Home</a>
+        <div class="nav-preview" data-preview="home">
+          <img src="nav-previews/home.jpg" alt=""
+               onerror="this.style.display='none'">
         </div>
-        <nav>
-          <ul>
-            <li><a href="#" id="home-link" onclick="showContent('home')">Home</a></li>
-            <li><a href="#" id="projects-link" onclick="showContent('projects')">Projects</a></li>
-            <li><a href="#" id="experience-link" onclick="showContent('experience')">Experience</a></li>
-            <li><a href="#" id="contact-link" onclick="showContent('contact')">Contact</a></li>
-          </ul>
-        </nav>
-      </section>
-      
-      <section id="content-section">
-        
-        <div id="home" class="content">
-          <div class="profile-image">
-            <img src="PFP.png" alt="Profile picture" class="circular-image">
-          </div>
-          <h2>Welcome to My Portfolio</h2>
-          <p>I am a UIUC Computer Engineering graduate interested in computing systems and its adjacent fields.</p>
-          <p style="margin-top: -15px;">More particularly, embedded DSP systems, machine learning, and data engineering.</p>
-          <p>This website I've created from scratch serves to showcase my work and experience.</p>
+      </li>
+      <li>
+        <a href="#about" class="nav-link" data-section="about">About</a>
+        <div class="nav-preview" data-preview="about">
+          <img src="nav-previews/about.jpg" alt=""
+               onerror="this.style.display='none'">
         </div>
-        
-        <div id="projects" class="content">
-            <div class="projects-grid">
-              
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer')">
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Nexus.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <h3>Granular Synthesizer</h3>
-                  <p>Jan 2025 - May 2025</p>
-              </div>
-
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System')">
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Security.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <h3>Android Embedded Security System</h3>
-                  <p>Aug 2024 - Dec 2024</p>
-              </div>
-
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy')">
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Cat.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <h3>Laser & Voice Assisted Cat Toy</h3>
-                  <p>Aug 2024 - Dec 2024</p>
-              </div>
-
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics')">
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Harmonics.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <h3>Illini Harmonics</h3>
-                  <p>Jan 2024 - May 2024</p>
-              </div>
-
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads')">
-                <div class="card-icon">
-                    <svg viewBox="0 0 24 24" class="icon">
-                        <img src="icons/FPGA.svg" alt="" class="icon">
-                    </svg>
-                </div>
-                <h3>FPGA Soccer Heads</h3>
-                <p>Sep 2023 - Dec 2023</p>
-            </div>
-
-              <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition')">
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Handwriting.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <h3>Handwritten Text Recognition</h3>
-                  <p>Sep 2023 - Oct 2023</p>
-              </div>
-              
-          </div>
+      </li>
+      <li>
+        <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+        <div class="nav-preview" data-preview="projects">
+          <img src="nav-previews/projects.jpg" alt=""
+               onerror="this.style.display='none'">
         </div>
-        
-        <div id="experience" class="content">
-            <div class="experience-section">
-                <h3 class="section-title">Professional Experience</h3>
-
-                <div class="experience-entry">
-                    <h4 class="entry-title">Opticent Health | System Engineer Intern</h4>
-                    <p class="entry-period">October 2025 - Present</p>
-                    <ul class="entry-details">
-                        <li>• Refactoring, multi-threading, and redesigning OCT scan acquisition, power testing, and post-processing software.</li>
-                        <li>• Researching and automating liquid lens calibration to accelerate and improve system calibration during assembly.</li>
-                        <li>• Standardizing, documenting, and designing wire harnesses for cutting edge visible-light OCT imaging systems.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="experience-section">
-                <h3 class="section-title">Research Experience</h3>
-
-                <div class="experience-entry">
-                    <h4 class="entry-title">Granular Synthesizer | C++ / Embedded DSP</h4>
-                    <p class="entry-period">January 2025 - May 2025</p>
-                    <ul class="entry-details">
-                        <li>• Worked with Associate Professor Thomas Moon to develop a granular synthesizer plugin in C++</li>
-                        <li>• Provides functionality for independent pitch, speed control, grain parameter adjustment, and uses VST architecture</li>
-                    </ul>
-                </div>
-
-                <div class="experience-entry">
-                    <h4 class="entry-title">PURE Research Mentorship | Aerospace / Data Programming</h4>
-                    <p class="entry-period">August 2022 - January 2023</p>
-                    <ul class="entry-details">
-                        <li>• Worked under PhD alongside a 10-person research team to develop aerospace research regarding wind tunnels</li>
-                        <li>• Specifically aided in applying sorting algorithms and data conversion techniques in Python for research data</li>
-                    </ul>
-                </div>
-            </div>
+      </li>
+      <li>
+        <a href="#experience" class="nav-link" data-section="experience">Experience</a>
+        <div class="nav-preview" data-preview="experience">
+          <img src="nav-previews/experience.jpg" alt=""
+               onerror="this.style.display='none'">
         </div>
-        
-        <div id="contact" class="content">
-          <div class="contact-links">
-              <a onclick="window.open('https://www.linkedin.com/in/pauljohnjablonski/')" class="contact-card" data-arrow='true'>
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/LinkedIn.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <span class="contact-text">LinkedIn</span>
-              </a>
-
-              <a class="contact-card" data-arrow='false'>
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Email.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <span class="contact-text">pauljohnjablonski@gmail.com</span>
-              </a>
-            
-              <a class="contact-card" data-arrow='false'>
-                  <div class="card-icon">
-                      <svg viewBox="0 0 24 24" class="icon">
-                          <img src="icons/Number.svg" alt="" class="icon">
-                      </svg>
-                  </div>
-                  <span class="contact-text">(224) 875-2504</span>
-              </a>
-          </div>
+      </li>
+      <li>
+        <a href="#education" class="nav-link" data-section="education">Education</a>
+        <div class="nav-preview" data-preview="education">
+          <img src="nav-previews/education.jpg" alt=""
+               onerror="this.style.display='none'">
         </div>
-      </section>
+      </li>
+      <li>
+        <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        <div class="nav-preview" data-preview="contact">
+          <img src="nav-previews/contact.jpg" alt=""
+               onerror="this.style.display='none'">
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" id="scrollIndicator">
+    <span>Scroll</span>
+    <div class="scroll-chevron">
+      <svg viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L10 10L19 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L10 10L19 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </div>
-  
+
+  <!-- Scrollable content -->
+  <main class="main">
+
+    <!-- HOME -->
+    <section id="home">
+      <div class="section-inner">
+        <div class="hero-top">
+          <div class="profile-image">
+            <img src="PFP.png" alt="Profile picture">
+          </div>
+          <div class="hero-text-block">
+            <p class="hero-label">Portfolio</p>
+            <h1>Paul Jablonski</h1>
+            <div class="hero-titles">
+              <div class="hero-title-pill">
+                <span class="pill-role">M.S. Electrical &amp; Computer Engineering</span>
+                <span class="pill-sep">-</span>
+                <span class="pill-org">Georgia Tech</span>
+              </div>
+              <div class="hero-title-pill">
+                <span class="pill-role">Systems Engineer</span>
+                <span class="pill-sep">-</span>
+                <span class="pill-org">Opticent Health</span>
+              </div>
+              <div class="hero-title-pill">
+                <span class="pill-role">Research Technologist II</span>
+                <span class="pill-sep">-</span>
+                <span class="pill-org">Northwestern University</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills strip -->
+        <div class="home-skills">
+          <div class="home-skills-row">
+            <span class="skill-chip">Solidworks CAD</span>
+            <span class="skill-chip">PCB Design</span>
+            <span class="skill-chip">C++</span>
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">Image Processing</span>
+            <span class="skill-chip">DSP</span>
+            <span class="skill-chip">FPGA</span>
+            <span class="skill-chip">Linux</span>
+            <span class="skill-chip">Git</span>
+            <span class="skill-chip">OCT</span>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-inner">
+        <p class="section-label">About Me</p>
+        <div class="about-grid">
+
+          <!-- Left: photo -->
+          <div class="about-photo">
+            <img src="about-photo.jpg" alt="Paul Jablonski"
+                 onerror="this.parentElement.innerHTML='<div class=\'about-photo-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1\'><circle cx=\'12\' cy=\'8\' r=\'4\'/><path d=\'M4 20c0-4 3.6-7 8-7s8 3 8 7\'/></svg><span>Photo</span></div>'">
+          </div>
+
+          <!-- Right: text -->
+          <div class="about-text">
+            <h2>Engineer.<br>Builder.<br>Design enthusiast.</h2>
+
+            <div class="about-bio">
+              <p>
+                I'm someone who is heavily driven by clean design. While functional prototypes are a must, I also 
+                deliver on the polish that is needed in a final product.
+              </p>
+              <p>
+                This truthfully reflects my personality as well. I'm well-organized and someone who appreciates the 
+                little things that make our lives easier. While I sometimes take a traditional engineering approach
+                through drawing things out, I'm quick to utilize new tools when I know I need them.
+              </p>
+              <p>At it's core, learning is what makes my job fun.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="hobbies-block hobbies-full">
+          <p class="hobbies-label">Outside the Lab</p>
+          <div class="home-skills-row">
+            <span class="skill-chip">Music production</span>
+            <span class="skill-chip">Snowboarding</span>
+            <span class="skill-chip">Game development</span>
+            <span class="skill-chip">Caffeine connoisseur</span>
+            <span class="skill-chip">Fitness</span>
+            <span class="skill-chip">Hiking</span>
+            <span class="skill-chip">Cats</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-inner">
+        <p class="section-label">Projects</p>
+        <div class="projects-list">
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer')">
+            <div class="project-preview">
+              <img src="previews/granular.png" alt="Granular Synthesizer preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Nexus.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
+              <div class="project-info">
+                <h3>Granular Synthesizer</h3>
+                <p>Jan 2025 – May 2025</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System')">
+            <div class="project-preview">
+              <img src="previews/security.png" alt="Android Embedded Security System preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Security.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
+              <div class="project-info">
+                <h3>Android Embedded Security System</h3>
+                <p>Aug 2024 – Dec 2024</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy')">
+            <div class="project-preview">
+              <img src="previews/cattoy.png" alt="Laser & Voice Assisted Cat Toy preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Cat.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
+              <div class="project-info">
+                <h3>Laser &amp; Voice Assisted Cat Toy</h3>
+                <p>Aug 2024 – Dec 2024</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics')">
+            <div class="project-preview">
+              <img src="previews/harmonics.png" alt="Illini Harmonics preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Harmonics.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
+              <div class="project-info">
+                <h3>Illini Harmonics</h3>
+                <p>Jan 2024 – May 2024</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads')">
+            <div class="project-preview">
+              <img src="previews/fpga.png" alt="FPGA Soccer Heads preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/FPGA.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
+              <div class="project-info">
+                <h3>FPGA Soccer Heads</h3>
+                <p>Sep 2023 – Dec 2023</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition')">
+            <div class="project-preview">
+              <img src="previews/handwriting.png" alt="Handwritten Text Recognition preview"
+                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Handwriting.svg\' alt=\'\'></div></div>'">
+            </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
+              <div class="project-info">
+                <h3>Handwritten Text Recognition</h3>
+                <p>Sep 2023 – Oct 2023</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-inner">
+        <p class="section-label">Experience</p>
+
+        <div class="experience-entries">
+
+          <!-- Opticent Health — image left -->
+          <div class="experience-card">
+            <div class="exp-photo" id="exp-photo-opticent">
+              <img src="experience/opticent.jpg" alt="Opticent Health"
+                   onerror="document.getElementById('exp-photo-opticent').classList.add('no-image')">
+            </div>
+            <div class="exp-card-body">
+              <h4>Opticent Health — Systems Engineer</h4>
+              <p class="entry-period">October 2025 – Present &nbsp;·&nbsp; Full-time</p>
+              <ul>
+                <li>• Refactoring, multi-threading, and redesigning OCT scan acquisition, power testing, and post-processing software.</li>
+                <li>• Researching and automating liquid lens calibration to accelerate and improve system calibration during assembly.</li>
+                <li>• Standardizing, documenting, and designing wire harnesses for cutting-edge visible-light OCT imaging systems.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Northwestern University — image right -->
+          <div class="experience-card img-right">
+            <div class="exp-photo" id="exp-photo-northwestern">
+              <img src="experience/northwestern.jpg" alt="Northwestern University"
+                   onerror="document.getElementById('exp-photo-northwestern').classList.add('no-image')">
+            </div>
+            <div class="exp-card-body">
+              <h4>Northwestern University — Research Technologist II</h4>
+              <p class="entry-period">January 2026 – Present &nbsp;·&nbsp; Full-time</p>
+              <ul>
+                <li>• Add your Northwestern responsibilities here.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-inner">
+        <p class="section-label">Education</p>
+        <div class="education-entries">
+
+          <div class="education-entry">
+            <span class="edu-degree">M.S. Electrical &amp; Computer Engineering</span>
+            <span class="edu-school">Georgia Institute of Technology</span>
+            <span class="edu-period">2025 – Present</span>
+          </div>
+
+          <div class="education-entry">
+            <span class="edu-degree">B.S. Computer Engineering</span>
+            <span class="edu-school">University of Illinois Urbana-Champaign</span>
+            <span class="edu-period">2021 – 2025</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-inner">
+        <p class="section-label">Contact</p>
+        <div class="contact-cards">
+
+          <a onclick="window.open('https://www.linkedin.com/in/pauljohnjablonski/')" class="contact-card">
+            <div class="card-icon"><img src="icons/LinkedIn.svg" alt="LinkedIn"></div>
+            <span class="contact-text">LinkedIn</span>
+          </a>
+
+          <a class="contact-card">
+            <div class="card-icon"><img src="icons/Email.svg" alt="Email"></div>
+            <span class="contact-text">pauljohnjablonski@gmail.com</span>
+          </a>
+
+          <a class="contact-card">
+            <div class="card-icon"><img src="icons/Number.svg" alt="Phone"></div>
+            <span class="contact-text">(224) 875-2504</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
   <div class="copyright">&copy; Paul Jablonski</div>
-  
+
+  <!-- Three.js animation -->
   <script src="animation.js"></script>
-  <script src="content.js"></script>
+
+  <script>
+    // ── Active nav link + preview image on scroll ──────────────────────────
+    const sections        = document.querySelectorAll('section[id]');
+    const navLinks        = document.querySelectorAll('.nav-link');
+    const navPreviews     = document.querySelectorAll('.nav-preview');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+
+    function getActiveSection() {
+      const scrollY = window.scrollY;
+      let active = sections[0].id;
+
+      sections.forEach(section => {
+        if (section.offsetTop - window.innerHeight * 0.4 <= scrollY) {
+          active = section.id;
+        }
+      });
+      return active;
+    }
+
+    function updateNav() {
+      const active = getActiveSection();
+
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.section === active);
+      });
+
+      navPreviews.forEach(preview => {
+        preview.classList.toggle('visible', preview.dataset.preview === active);
+      });
+
+      const scrolled = window.scrollY > window.innerHeight * 0.3;
+      scrollIndicator.classList.toggle('hidden', scrolled);
+    }
+
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+  <script>
+    const projectCards = document.querySelectorAll('.project-card');
+
+    function updateFocusedCard() {
+      const viewportCenter = window.innerHeight / 2;
+      let closestCard = null;
+      let closestDist = Infinity;
+
+      projectCards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.top + rect.height / 2;
+        const dist = Math.abs(cardCenter - viewportCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestCard = card;
+        }
+      });
+
+      projectCards.forEach(card => card.classList.remove('active'));
+      if (closestCard) closestCard.classList.add('active');
+    }
+
+    window.addEventListener('scroll', updateFocusedCard, { passive: true });
+    updateFocusedCard();
+  </script>
+
 </body>
 </html>
