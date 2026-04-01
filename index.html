@@ -59,7 +59,7 @@
     #loading-text {
       position: fixed;
       top: 75%; /* Slightly below the particle swirl */
-      left: 50.2%;
+      left: 50.4%;
       transform: translate(-50%, -50%);
       font-size: 13px;
       letter-spacing: 0.4em;
@@ -501,7 +501,7 @@
     .education-entries {
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 30px;
     }
 
     .education-entry {
@@ -511,7 +511,16 @@
       padding: 31px 35px;
       display: flex;
       flex-direction: column;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s ease,
+              background 0.4s ease;
       gap: 7px;
+    }
+
+    .education-entry.active {
+      transform: scale(1.06);
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.07);
     }
 
     .education-entry .edu-degree {
@@ -675,17 +684,26 @@
     .experience-entries {
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 30px;
     }
 
     .experience-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 10px;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s ease,
+              background 0.4s ease;
       overflow: hidden;
       display: flex;
       flex-direction: row;
       min-height: 200px;
+    }
+
+    .experience-card.active {
+      transform: scale(1.06);
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.07);
     }
 
     /* Image column — left by default */
@@ -762,7 +780,7 @@
     .contact-cards {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 25px;
     }
 
     .contact-card {
@@ -776,13 +794,15 @@
       cursor: pointer;
       text-decoration: none;
       color: var(--fg);
-      transition: background 0.25s, border-color 0.25s;
+      transition: background 0.25s, border-color 0.25s,
+                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: 560px;
     }
 
     .contact-card:hover {
       background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.18);
+      transform: scale(1.06);
     }
 
     .contact-card .card-icon {
@@ -1263,6 +1283,50 @@
 
     window.addEventListener('scroll', updateFocusedCard, { passive: true });
     updateFocusedCard();
+  </script>
+
+  <script>
+    /* ── Experience cards: focus nearest to center ── */
+    const expCards = document.querySelectorAll('.experience-card');
+
+    function updateFocusedExpCard() {
+      const viewportCenter = window.innerHeight / 2;
+      let closestCard = null, closestDist = Infinity;
+
+      expCards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
+        if (dist < closestDist) { closestDist = dist; closestCard = card; }
+      });
+
+      expCards.forEach(card => card.classList.remove('active'));
+      if (closestCard) closestCard.classList.add('active');
+    }
+
+    window.addEventListener('scroll', updateFocusedExpCard, { passive: true });
+    updateFocusedExpCard();
+  </script>
+
+  <script>
+    /* ── Education entries: focus nearest to center ── */
+    const eduEntries = document.querySelectorAll('.education-entry');
+
+    function updateFocusedEduEntry() {
+      const viewportCenter = window.innerHeight / 2;
+      let closestEntry = null, closestDist = Infinity;
+
+      eduEntries.forEach(entry => {
+        const rect = entry.getBoundingClientRect();
+        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
+        if (dist < closestDist) { closestDist = dist; closestEntry = entry; }
+      });
+
+      eduEntries.forEach(entry => entry.classList.remove('active'));
+      if (closestEntry) closestEntry.classList.add('active');
+    }
+
+    window.addEventListener('scroll', updateFocusedEduEntry, { passive: true });
+    updateFocusedEduEntry();
   </script>
 
 </body>
