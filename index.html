@@ -36,10 +36,9 @@
     /* ── Loading State ── */
     body.is-loading {
       overflow: hidden;
-      height: 100vh; /* Strictly lock scrolling */
+      height: 100vh;
     }
 
-    /* Hide while loading */
     body.is-loading .main,
     body.is-loading .side-nav,
     body.is-loading .scroll-indicator,
@@ -49,16 +48,14 @@
       transform: translateY(15px);
     }
 
-    /* Fade in with delay after burst */
     .main, .side-nav, .scroll-indicator, .copyright {
       transition: opacity 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s,
                   transform 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s;
     }
 
-    /* Blinking Loading Text */
     #loading-text {
       position: fixed;
-      top: 75%; /* Slightly below the particle swirl */
+      top: 75%;
       left: 50.4%;
       transform: translate(-50%, -50%);
       font-size: 13px;
@@ -81,7 +78,6 @@
       100% { opacity: 1; }
     } 
 
-    /* ── Three.js background ── */
     #animation-background {
       position: fixed;
       inset: 0;
@@ -197,7 +193,7 @@
         to right,
         transparent 0%,
         rgba(17, 17, 17, 0) 50%,
-        rgba(17, 17, 17, 1) 100%  /* ← full opacity */
+        rgba(17, 17, 17, 1) 100%
       );
       pointer-events: none;
     }
@@ -510,17 +506,51 @@
       border-radius: 10px;
       padding: 31px 35px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      align-items: center;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
               border-color 0.4s ease,
-              background 0.4s ease;
-      gap: 7px;
+              background 0.4s ease,
+              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);  
+      opacity: 0.5;  
+      gap: 28px;
     }
 
     .education-entry.active {
       transform: scale(1.06);
+      opacity: 1.0;
       border-color: rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.07);
+    }
+
+    /* Education icon */
+    .edu-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .edu-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.6);
+    }
+
+    /* SVG fallback icon inside .edu-icon */
+    .edu-icon svg {
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+    }
+
+    .edu-text {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
 
     .education-entry .edu-degree {
@@ -566,8 +596,10 @@
       border: 1px solid var(--card-border);
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 0.25s ease, border-color 0.25s ease,
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0.5;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -575,6 +607,7 @@
 
     .project-card.active {
       transform: scale(1.06);
+      opacity: 1.0;
       border-color: rgba(255,255,255,0.25);
     }
 
@@ -604,7 +637,7 @@
     }
 
     .project-card.active .project-preview {
-      height: 220px;  /* expanded */
+      height: 220px;
     }
 
     .project-preview img {
@@ -666,18 +699,48 @@
       filter: brightness(0) invert(1) opacity(0.7);
     }
 
-    .project-info h3 {
+    /* ── Project info + tags ── */
+    .project-info {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      flex: 1;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Left cluster: title + tags stacked */
+    .project-info-left {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .project-info-left h3 {
       font-size: 22px;
       font-weight: 300;
       letter-spacing: 0.02em;
-      margin-bottom: 7px;
       color: var(--fg);
     }
 
-    .project-info p {
+    /* CHANGE 1: tags row — align-items center so chips match skill chip height */
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    /* CHANGE 2: date pushed to the far right */
+    .project-info .project-date {
       font-size: 14px;
       color: var(--muted);
       letter-spacing: 0.06em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-left: auto;
     }
 
     /* ── Experience ── */
@@ -693,7 +756,9 @@
       border-radius: 10px;
       transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
               border-color 0.4s ease,
-              background 0.4s ease;
+              background 0.4s ease,
+              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
+      opacity: 0.5;  
       overflow: hidden;
       display: flex;
       flex-direction: row;
@@ -702,6 +767,7 @@
 
     .experience-card.active {
       transform: scale(1.06);
+      opacity: 1.0;
       border-color: rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.07);
     }
@@ -739,7 +805,7 @@
     }
 
     .exp-card-body {
-      padding: 31px 35px;
+      padding: 22px 35px;
       display: flex;
       flex-direction: column;
       gap: 7px;
@@ -747,19 +813,94 @@
       justify-content: center;
     }
 
-    .exp-card-body h4 {
+    /* Experience header — icon + title/org on left, date on right */
+    .exp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 2px;
+    }
+
+    /* Left cluster of icon + title group */
+    .exp-header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* Right cluster: date + type */
+    .exp-header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .exp-header-right .exp-date {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .exp-header-right .exp-type {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.5;
+      white-space: nowrap;
+    }
+
+    .exp-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .exp-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.6);
+    }
+
+    .exp-icon svg {
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+    }
+
+    .exp-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    /* CHANGE 3: role title — just the role, no company inline */
+    .exp-title-group .exp-role {
       font-size: 20px;
       font-weight: 300;
       letter-spacing: 0.02em;
       color: var(--fg);
     }
 
-    .exp-card-body .entry-period {
-      font-size: 13px;
+    /* CHANGE 3: company name sits below the role title */
+    .exp-title-group .exp-company {
+      font-size: 15px;
+      font-weight: 300;
       color: var(--muted);
-      letter-spacing: 0.08em;
-      opacity: 0.7;
-      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+    }
+
+    .exp-card-body .entry-period {
+      display: none;
     }
 
     .exp-card-body ul {
@@ -857,6 +998,14 @@
         order: 0 !important;
       }
       .exp-card-body { order: 1 !important; }
+      /* Stack project-info back to column on small screens */
+      .project-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .project-info .project-date {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
@@ -978,7 +1127,6 @@
           </div>
         </div>
 
-
       </div>
     </section>
 
@@ -988,13 +1136,11 @@
         <p class="section-label">About Me</p>
         <div class="about-grid">
 
-          <!-- Left: photo -->
           <div class="about-photo">
             <img src="about-photo.jpg" alt="Paul Jablonski"
                  onerror="this.parentElement.innerHTML='<div class=\'about-photo-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1\'><circle cx=\'12\' cy=\'8\' r=\'4\'/><path d=\'M4 20c0-4 3.6-7 8-7s8 3 8 7\'/></svg><span>Photo</span></div>'">
           </div>
 
-          <!-- Right: text -->
           <div class="about-text">
             <h2>Engineer.<br>Builder.<br>Design enthusiast.</h2>
 
@@ -1044,8 +1190,15 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
               <div class="project-info">
-                <h3>Granular Synthesizer</h3>
-                <p>Jan 2025 – May 2025</p>
+                <div class="project-info-left">
+                  <h3>Granular Synthesizer</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">C++</span>
+                    <span class="skill-chip">DSP</span>
+                    <span class="skill-chip">Real-Time</span>
+                  </div>
+                </div>
+                <span class="project-date">Jan 2025 – May 2025</span>
               </div>
             </div>
           </div>
@@ -1058,8 +1211,15 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
               <div class="project-info">
-                <h3>Android Embedded Security System</h3>
-                <p>Aug 2024 – Dec 2024</p>
+                <div class="project-info-left">
+                  <h3>Android Embedded Security System</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">Android</span>
+                    <span class="skill-chip">Java</span>
+                    <span class="skill-chip">DSP</span>
+                  </div>
+                </div>
+                <span class="project-date">Aug 2024 – Dec 2024</span>
               </div>
             </div>
           </div>
@@ -1072,8 +1232,15 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
               <div class="project-info">
-                <h3>Laser &amp; Voice Assisted Cat Toy</h3>
-                <p>Aug 2024 – Dec 2024</p>
+                <div class="project-info-left">
+                  <h3>Laser &amp; Voice Assisted Cat Toy</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">PCB</span>
+                    <span class="skill-chip">Arduino</span>
+                    <span class="skill-chip">CAD</span>
+                  </div>
+                </div>
+                <span class="project-date">Aug 2024 – Dec 2024</span>
               </div>
             </div>
           </div>
@@ -1086,8 +1253,16 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
               <div class="project-info">
-                <h3>Illini Harmonics</h3>
-                <p>Jan 2024 – May 2024</p>
+                <div class="project-info-left">
+                  <h3>Music Sharing Platform</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">React</span>
+                    <span class="skill-chip">Node.js</span>
+                    <span class="skill-chip">mySQL</span>
+                    <span class="skill-chip">Spotify API</span>
+                  </div>
+                </div>
+                <span class="project-date">Jan 2024 – May 2024</span>
               </div>
             </div>
           </div>
@@ -1100,8 +1275,16 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
               <div class="project-info">
-                <h3>FPGA Soccer Heads</h3>
-                <p>Sep 2023 – Dec 2023</p>
+                <div class="project-info-left">
+                  <h3>FPGA Soccer Heads</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">SystemVerilog</span>
+                    <span class="skill-chip">FPGA</span>
+                    <span class="skill-chip">VGA</span>
+                    <span class="skill-chip">UART</span>
+                  </div>
+                </div>
+                <span class="project-date">Sep 2023 – Dec 2023</span>
               </div>
             </div>
           </div>
@@ -1114,8 +1297,16 @@
             <div class="project-body">
               <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
               <div class="project-info">
-                <h3>Handwritten Text Recognition</h3>
-                <p>Sep 2023 – Oct 2023</p>
+                <div class="project-info-left">
+                  <h3>Handwritten Text Recognition</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">Python</span>
+                    <span class="skill-chip">CNN</span>
+                    <span class="skill-chip">Image Processing</span>
+                    <span class="skill-chip">PyTorch</span>
+                  </div>
+                </div>
+                <span class="project-date">Sep 2023 – Oct 2023</span>
               </div>
             </div>
           </div>
@@ -1138,27 +1329,57 @@
                    onerror="document.getElementById('exp-photo-opticent').classList.add('no-image')">
             </div>
             <div class="exp-card-body">
-              <h4>Opticent Health — Systems Engineer</h4>
-              <p class="entry-period">October 2025 – Present &nbsp;·&nbsp; Full-time</p>
+              <div class="exp-header">
+                <div class="exp-header-left">
+                  <div class="exp-icon">
+                    <img src="icons/Opticent.svg" alt="Opticent Health"
+                         onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><circle cx=\'12\' cy=\'12\' r=\'3\'/><path d=\'M2 12C2 12 5 5 12 5s10 7 10 7-3 7-10 7S2 12 2 12z\'/></svg>'">
+                  </div>
+                  <div class="exp-title-group">
+                    <span class="exp-role">Systems Engineer</span>
+                    <span class="exp-company">Opticent Health</span>
+                  </div>
+                </div>
+                <div class="exp-header-right">
+                  <span class="exp-date">Oct 2025 – Present</span>
+                  <span class="exp-type">Full-time</span>
+                </div>
+              </div>
               <ul>
-                <li>• Refactoring, multi-threading, and redesigning OCT scan acquisition, power testing, and post-processing software.</li>
+                <li>• Fully redesigning and reducing the footprint of OCT imaging systems for metrology and human research.</li>
                 <li>• Researching and automating liquid lens calibration to accelerate and improve system calibration during assembly.</li>
                 <li>• Standardizing, documenting, and designing wire harnesses for cutting-edge visible-light OCT imaging systems.</li>
+                <li>• Aiming to take our systems to the clinical level.</li>
               </ul>
             </div>
           </div>
 
-          <!-- Northwestern University — image right -->
-          <div class="experience-card img-right">
+          <!-- Northwestern University — image left -->
+          <div class="experience-card img-left">
             <div class="exp-photo" id="exp-photo-northwestern">
               <img src="experience/northwestern.jpg" alt="Northwestern University"
-                   onerror="document.getElementById('exp-photo-northwestern').classList.add('no-image')">
+                  onerror="document.getElementById('exp-photo-northwestern').classList.add('no-image')">
             </div>
             <div class="exp-card-body">
-              <h4>Northwestern University — Research Technologist II</h4>
-              <p class="entry-period">January 2026 – Present &nbsp;·&nbsp; Full-time</p>
+              <div class="exp-header">
+                <div class="exp-header-left">
+                  <div class="exp-icon">
+                    <img src="icons/NU.svg" alt="Northwestern University"
+                        onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M12 3L2 9l10 6 10-6-10-6z\'/><path d=\'M2 15l10 6 10-6\'/><path d=\'M2 12l10 6 10-6\'/></svg>'">
+                  </div>
+                  <div class="exp-title-group">
+                    <span class="exp-role">Research Technologist II</span>
+                    <span class="exp-company">Northwestern University</span>
+                  </div>
+                </div>
+                <div class="exp-header-right">
+                  <span class="exp-date">Mar 2026 – Present</span>
+                  <span class="exp-type">Part-time</span>
+                </div>
+              </div>
               <ul>
-                <li>• Add your Northwestern responsibilities here.</li>
+                <li>• Supporting biomedical engineering PhD candidates in their research, providing expertise in programming and CAD.</li>
+                <li>• Contributing to the further development and documentation of visible-light imaging technology.</li>
               </ul>
             </div>
           </div>
@@ -1174,15 +1395,27 @@
         <div class="education-entries">
 
           <div class="education-entry">
-            <span class="edu-degree">M.S. Electrical &amp; Computer Engineering</span>
-            <span class="edu-school">Georgia Institute of Technology</span>
-            <span class="edu-period">2025 – Present</span>
+            <div class="edu-icon">
+              <img src="icons/GT.svg" alt="Georgia Tech"
+                   onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z\'/><path d=\'M9 22V12h6v10\'/></svg>'">
+            </div>
+            <div class="edu-text">
+              <span class="edu-degree">M.S. Electrical &amp; Computer Engineering</span>
+              <span class="edu-school">Georgia Institute of Technology</span>
+              <span class="edu-period">2025 – Present</span>
+            </div>
           </div>
 
           <div class="education-entry">
-            <span class="edu-degree">B.S. Computer Engineering</span>
-            <span class="edu-school">University of Illinois Urbana-Champaign</span>
-            <span class="edu-period">2021 – 2025</span>
+            <div class="edu-icon">
+              <img src="icons/UIUC.svg" alt="UIUC"
+                   onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z\'/><path d=\'M9 22V12h6v10\'/></svg>'">
+            </div>
+            <div class="edu-text">
+              <span class="edu-degree">B.S. Computer Engineering</span>
+              <span class="edu-school">University of Illinois Urbana-Champaign</span>
+              <span class="edu-period">2021 – 2025</span>
+            </div>
           </div>
 
         </div>
@@ -1202,7 +1435,7 @@
 
           <a class="contact-card">
             <div class="card-icon"><img src="icons/Email.svg" alt="Email"></div>
-            <span class="contact-text">pauljohnjablonski@gmail.com</span>
+            <span class="contact-text"><span class="__cf_email__" data-cfemail="621203170e080d0a0c0803000e0d0c11090b22050f030b0e4c010d0f">pauljohnjablonski@gmail.com</span></span>
           </a>
 
           <a class="contact-card">
@@ -1218,8 +1451,7 @@
 
   <div class="copyright">&copy; Paul Jablonski</div>
 
-  <!-- Three.js animation -->
-  <script src="animation.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="animation.js"></script>
 
   <script>
     // ── Active nav link + preview image on scroll ──────────────────────────
