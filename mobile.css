@@ -456,6 +456,10 @@
   }
 
   #exp-photo-opticent {
-    height: 170px;
+    height: 200px;
+  }
+
+  #exp-photo-opticent img {
+    object-position: center top;
   }
 }
