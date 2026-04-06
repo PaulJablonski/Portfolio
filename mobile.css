@@ -248,9 +248,10 @@
     border-radius: 8px;
   }
 
-  #about .about-text { gap: 20px; }
+  #about .about-text { gap: 20px; align-items: center;}
 
   #about .about-text h2 {
+    text-align: center;
     font-size: 24px;
     line-height: 1.2;
   }
@@ -263,11 +264,13 @@
   #about .about-bio p + p { margin-top: 10px; }
 
   .hobbies-block.hobbies-full {
+    text-align: center;
     margin-top: 24px;
     padding-top: 20px;
   }
 
   #about .hobbies-label {
+    text-align: center;
     font-size: 10px;
     letter-spacing: 0.22em;
     margin-bottom: 12px;
@@ -450,5 +453,9 @@
 
   .education-entry.active {
     transform: scale(1.03);
+  }
+
+  #exp-photo-opticent img {
+    object-position: center bottom;
   }
 }
