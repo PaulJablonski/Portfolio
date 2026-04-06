@@ -194,6 +194,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hold the loading state for 1.8 seconds, then burst
     setTimeout(() => {
         isLoaded = true;
-        document.body.classList.remove('is-loading'); // ← text vanishes instantly (burst starts)
+        const loadingText = document.getElementById('loading-text');
+
+        // Step 1: freeze the pulse at its current opacity
+        loadingText.style.animation = 'none';
+
+        // Step 2: double rAF ensures the browser commits the above before transitioning
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+            loadingText.style.transition = 'opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1)';
+            loadingText.style.opacity = '0';
+            });
+        });
+
+        // Step 3: only hide after the fade finishes
+        setTimeout(() => {
+            loadingText.style.visibility = 'hidden';
+        }, 1000);
+
+        document.body.classList.remove('is-loading');
     }, 2800);
 });

@@ -1,0 +1,472 @@
+/* ═══════════════════════════════════════════════
+   TABLET  (≤ 860px)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  #about .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #about .about-photo {
+    display: none;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════
+   MOBILE  (≤ 700px)
+   ═══════════════════════════════════════════════ */
+@media (max-width: 700px) {
+
+  /* ── Reset nav width so nothing is offset ── */
+  :root {
+    --nav-width: 0px;
+  }
+
+  /* ── Hide desktop side nav ── */
+  .side-nav {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    padding-top: 60px; /* clear the mobile top bar */
+  }
+
+  /* ── Sections ── */
+  section {
+    padding: 52px 22px 60px;
+    min-height: 100svh;
+  }
+
+  section + section::before {
+    left: 22px;
+    right: 22px;
+  }
+
+  .section-inner {
+    max-width: 100%;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    margin-bottom: 36px;
+  }
+
+  /* ── Mobile top bar ── */
+  .mobile-topbar {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: rgba(17, 17, 17, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--card-border);
+    z-index: 500;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+  }
+
+  .mobile-topbar .topbar-name {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .mobile-topbar .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    background: none;
+    border: none;
+  }
+
+  .mobile-topbar .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--muted);
+    border-radius: 2px;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.25s ease,
+                width 0.3s ease;
+  }
+
+  /* Hamburger → X animation */
+  .mobile-topbar .hamburger.open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .mobile-topbar .hamburger.open span:nth-child(2) {
+    opacity: 0;
+    width: 0;
+  }
+  .mobile-topbar .hamburger.open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* ── Mobile drawer nav ── */
+  .mobile-drawer {
+    display: flex !important;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 17, 17, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 490;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 36px;
+    transform: translateX(-100%);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .mobile-drawer.open {
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .mobile-drawer a {
+    font-size: 36px;
+    font-weight: 200;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--card-border);
+    width: 100%;
+    transition: color 0.2s ease, letter-spacing 0.2s ease;
+  }
+
+  .mobile-drawer a:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-drawer a.active,
+  .mobile-drawer a:hover {
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    bottom: 24px;
+  }
+
+  /* ── Copyright ── */
+  .copyright {
+    bottom: 14px;
+    right: 22px;
+    font-size: 9px;
+  }
+
+
+  /* ════════════════════════════
+     HOME / HERO
+  ════════════════════════════ */
+  .hero-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .profile-image img {
+    width: 110px;
+    height: 110px;
+  }
+
+  #home .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    margin-bottom: 8px;
+  }
+
+  #home h1 {
+    font-size: clamp(38px, 11vw, 56px);
+    margin-bottom: 16px;
+  }
+
+  .hero-title-pill {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .hero-title-pill .pill-role {
+    font-size: 14px;
+  }
+
+  .hero-title-pill .pill-sep {
+    font-size: 12px;
+  }
+
+  .hero-title-pill .pill-org {
+    font-size: 12px;
+  }
+
+  .home-skills {
+    margin-top: 24px;
+    padding-top: 22px;
+  }
+
+  .skill-chip {
+    font-size: 11px;
+    padding: 5px 11px;
+  }
+
+
+  /* ════════════════════════════
+     ABOUT
+  ════════════════════════════ */
+  #about .about-text h2 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  #about .about-bio p {
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  #about .about-text {
+    gap: 24px;
+  }
+
+  .hobbies-block.hobbies-full {
+    margin-top: 28px;
+    padding-top: 22px;
+  }
+
+  #about .hobbies-label {
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    margin-bottom: 14px;
+  }
+
+
+  /* ════════════════════════════
+     PROJECTS
+  ════════════════════════════ */
+  .projects-list {
+    gap: 18px;
+  }
+
+  /* Disable the scroll-focus scale — too jumpy on touch */
+  .project-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .project-card.active {
+    transform: none !important;
+    border-color: rgba(255,255,255,0.22);
+  }
+
+  .project-card:hover {
+    transform: none !important;
+  }
+
+  /* Lock preview height — no expand-on-focus */
+  .project-preview,
+  .project-card.active .project-preview {
+    height: 130px !important;
+  }
+
+  .project-preview img {
+    filter: blur(0px) brightness(0.85) !important;
+    opacity: 85% !important;
+  }
+
+  .project-body {
+    padding: 16px 18px;
+    gap: 14px;
+  }
+
+  .project-body .card-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .project-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .project-info-left h3 {
+    font-size: 17px;
+  }
+
+  .project-info .project-date {
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    margin-left: 0;
+  }
+
+  /* Hide the desktop "Read More" hover cue */
+  .project-read-more {
+    display: none;
+  }
+
+
+  /* ════════════════════════════
+     EXPERIENCE
+  ════════════════════════════ */
+  .experience-entries {
+    gap: 18px;
+  }
+
+  .experience-card,
+  .experience-card.img-right {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  /* Disable scroll-focus scale on mobile */
+  .experience-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .experience-card.active {
+    transform: none !important;
+    border-color: rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .exp-photo {
+    width: 100%;
+    height: 150px;
+    border-right: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid var(--card-border);
+    order: 0 !important;
+    flex-shrink: unset;
+  }
+
+  .exp-card-body {
+    order: 1 !important;
+    padding: 18px 18px 22px;
+  }
+
+  .exp-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .exp-header-left {
+    gap: 12px;
+  }
+
+  .exp-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .exp-title-group .exp-role {
+    font-size: 16px;
+  }
+
+  .exp-title-group .exp-company {
+    font-size: 13px;
+  }
+
+  .exp-header-right .exp-date {
+    font-size: 12px;
+  }
+
+  .exp-header-right .exp-type {
+    font-size: 10px;
+  }
+
+  .exp-card-body ul li {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .exp-card-body ul {
+    gap: 8px;
+  }
+
+
+  /* ════════════════════════════
+     EDUCATION
+  ════════════════════════════ */
+  .education-entries {
+    gap: 16px;
+  }
+
+  .education-entry {
+    opacity: 1 !important;
+    transform: none !important;
+    padding: 20px 18px;
+    gap: 16px;
+  }
+
+  .education-entry.active {
+    transform: none !important;
+    border-color: rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.06);
+  }
+
+  .edu-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .education-entry .edu-degree {
+    font-size: 16px;
+  }
+
+  .education-entry .edu-school {
+    font-size: 14px;
+  }
+
+  .education-entry .edu-period {
+    font-size: 12px;
+  }
+
+
+  /* ════════════════════════════
+     CONTACT
+  ════════════════════════════ */
+  .contact-cards {
+    gap: 14px;
+  }
+
+  .contact-card {
+    max-width: 100%;
+    padding: 20px 18px;
+    gap: 18px;
+  }
+
+  .contact-card:hover {
+    transform: none;
+  }
+
+  .contact-card .card-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .contact-card .contact-text {
+    font-size: 15px;
+  }
+
+}
+/* ── end @media 700px ── */

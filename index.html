@@ -9,1008 +9,68 @@
   <meta name="theme-color" content="#111111">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #111111;
-      --fg: #f0f0f0;
-      --muted: #c0c0c0;
-      --accent: #ffffff;
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.12);
-      --nav-width: 286px;
-    }
-
-    html { scroll-behavior: smooth; 
-           scrollbar-gutter: stable;}
-
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: 'Work Sans', sans-serif;
-      font-weight: 200;
-      overflow-x: hidden;
-    }
-
-    /* ── Loading State ── */
-    body.is-loading {
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    body.is-loading .main,
-    body.is-loading .side-nav,
-    body.is-loading .scroll-indicator,
-    body.is-loading .copyright {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(15px);
-    }
-
-    .main, .side-nav, .scroll-indicator, .copyright {
-      transition: opacity 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s,
-                  transform 2.0s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s;
-    }
-
-    #loading-text {
-      position: fixed;
-      top: 75%;
-      left: 50.4%;
-      transform: translate(-50%, -50%);
-      font-size: 13px;
-      letter-spacing: 0.4em;
-      font-weight: 300;
-      color: var(--muted);
-      z-index: 200;
-      animation: pulse 1s infinite alternate;
-      transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.0s;
-      pointer-events: none;
-    }
-
-    body:not(.is-loading) #loading-text {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.2; }
-      100% { opacity: 1; }
-    } 
-
-    #animation-background {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* ── Fixed left nav ── */
-    .side-nav {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: var(--nav-width);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-left: 53px;
-      z-index: 100;
-    }
-
-    .side-nav .site-name {
-      font-size: 17px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 57px;
-    }
-
-    .side-nav ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .side-nav ul li {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .side-nav ul li a {
-      display: block;
-      font-size: 18px;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 9px 0 6px;
-      transition: color 0.3s ease, font-size 0.3s ease, letter-spacing 0.3s ease;
-      position: relative;
-    }
-
-    .side-nav ul li a::before {
-      content: '∙';
-      position: absolute;
-      left: -20px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .side-nav ul li a.active {
-      color: var(--accent);
-      font-size: 21px;
-      letter-spacing: 0.1em;
-    }
-
-    .side-nav ul li a.active::before {
-      opacity: 1;
-    }
-
-    /* ── Nav preview image strip ── */
-    .nav-preview {
-      width: calc(var(--nav-width) - 53px);
-      height: 52px;
-      border-radius: 5px;
-      overflow: hidden;
-      position: relative;
-      opacity: 0;
-      max-height: 0;
-      margin-bottom: 0;
-      transition:
-        opacity 0.4s ease,
-        max-height 0.4s ease,
-        margin-bottom 0.4s ease;
-      pointer-events: none;
-    }
-
-    .nav-preview.visible {
-      opacity: 1;
-      max-height: 52px;
-      margin-bottom: 8px;
-    }
-
-    .nav-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
-
-    .nav-preview::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to right,
-        transparent 0%,
-        rgba(17, 17, 17, 0) 50%,
-        rgba(17, 17, 17, 1) 100%
-      );
-      pointer-events: none;
-    }
-
-    /* ── Scroll indicator ── */
-    .scroll-indicator {
-      position: fixed;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      pointer-events: none;
-    }
-
-    .scroll-indicator.hidden { opacity: 0; }
-
-    .scroll-indicator span {
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .scroll-chevron {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      animation: bounce 1.6s ease-in-out infinite;
-    }
-
-    .scroll-chevron svg {
-      width: 20px;
-      height: 12px;
-      opacity: 0.7;
-    }
-
-    .scroll-chevron svg:nth-child(2) {
-      opacity: 0.4;
-      margin-top: -4px;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-
-    /* ── Main content area ── */
-    .main {
-      margin-left: var(--nav-width);
-      position: relative;
-      z-index: 10;
-    }
-
-    /* ── Sections ── */
-    section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 110px 88px;
-      position: relative;
-    }
-
-    section + section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 88px;
-      right: 88px;
-      height: 1px;
-      background: var(--card-border);
-    }
-
-    .section-inner {
-      width: 100%;
-      max-width: 860px;
-    }
-
-    /* ── Landing / Hero ── */
-    .hero-top {
-      display: flex;
-      align-items: center;
-      gap: 44px;
-      margin-bottom: 36px;
-    }
-
-    .profile-image img {
-      width: 185px;
-      height: 185px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--card-border);
-      filter: grayscale(15%);
-      flex-shrink: 0;
-    }
-
-    #home .hero-label {
-      font-size: 18px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color:  rgba(255, 255, 255, 0.699);
-      margin-bottom: 11px;
-    }
-
-    #home h1 {
-      font-size: clamp(46px, 6vw, 86px);
-      font-weight: 200;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 22px;
-    }
-
-    .hero-titles {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .hero-title-pill {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 11px;
-    }
-
-    .hero-title-pill .pill-role {
-      font-size: 17px;
-      font-weight: 300;
-      color: var(--fg);
-      letter-spacing: 0.02em;
-    }
-
-    .hero-title-pill .pill-sep {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.705);
-    }
-
-    .hero-title-pill .pill-org {
-      font-size: 14px;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-
-    .bio-text {
-        margin-top: 44px;
-        padding-top: 40px;
-        border-top: 1px solid var(--card-border);
-        display: flex;
-        justify-content: center;
-    }
-
-    .who-am-i {
-        font-size: clamp(28px, 4vw, 48px);
-        font-weight: 200;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--fg);
-        text-align: center;
-        opacity: 0.85;
-        border: 1px solid var(--card-border);
-        padding: 18px 48px;
-        border-radius: 6px;
-        background: var(--card-bg);
-        transition: border-color 0.3s, opacity 0.3s;
-    }
-
-    .who-am-i:hover {
-        border-color: rgba(255,255,255,0.28);
-        opacity: 1;
-    }
-
-    /* ── Home skills strip ── */
-    .home-skills {
-      margin-top: 32px;
-      padding-top: 28px;
-      border-top: 1px solid var(--card-border);
-    }
-
-    .home-skills-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-    }
-
-    .skill-chip {
-      font-size: 12px;
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      border: 1px solid var(--card-border);
-      border-radius: 4px;
-      padding: 5px 13px;
-      background: var(--card-bg);
-      transition: border-color 0.2s, color 0.2s;
-      white-space: nowrap;
-    }
-
-    .skill-chip:hover {
-      border-color: rgba(255,255,255,0.28);
-      color: var(--fg);
-    }
-
-    /* ── About Me section ── */
-    #about .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 44px;
-      align-items: start;
-    }
-
-    #about .about-photo {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #about .about-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(15%);
-    }
-
-    #about .about-photo-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      opacity: 0.25;
-    }
-
-    #about .about-photo-placeholder svg {
-      width: 48px;
-      height: 48px;
-    }
-
-    #about .about-photo-placeholder span {
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    #about .about-text {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-    }
-
-    #about .about-text h2 {
-      font-size: 38px;
-      font-weight: 200;
-      letter-spacing: -0.01em;
-      line-height: 1.15;
-      color: var(--fg);
-    }
-
-    #about .about-bio p {
-      font-size: 17px;
-      line-height: 1.9;
-      color: var(--muted);
-    }
-
-    #about .about-bio p + p { margin-top: 14px; }
-
-    #about .hobbies-block {
-      border-top: 1px solid var(--card-border);
-      padding-top: 28px;
-    }
-
-    #about .hobbies-label {
-      font-size: 18px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color:  rgba(255, 255, 255, 0.699);
-      margin-bottom: 18px;
-      opacity: 0.6;
-    }
-
-    .hobbies-block.hobbies-full {
-        margin-top: 36px;
-        padding-top: 28px;
-        border-top: 1px solid var(--card-border);
-    }
-
-    /* ── Education section ── */
-    .education-entries {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .education-entry {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 31px 35px;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.4s ease,
-              background 0.4s ease,
-              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);  
-      opacity: 0.5;  
-      gap: 28px;
-    }
-
-    .education-entry.active {
-      transform: scale(1.06);
-      opacity: 1.0;
-      border-color: rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.07);
-    }
-
-    /* Education icon */
-    .edu-icon {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .edu-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1) opacity(0.6);
-    }
-
-    /* SVG fallback icon inside .edu-icon */
-    .edu-icon svg {
-      width: 100%;
-      height: 100%;
-      opacity: 0.5;
-    }
-
-    .edu-text {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .education-entry .edu-degree {
-      font-size: 21px;
-      font-weight: 300;
-      letter-spacing: 0.02em;
-      color: var(--fg);
-    }
-
-    .education-entry .edu-school {
-      font-size: 17px;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.04em;
-    }
-
-    .education-entry .edu-period {
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      margin-top: 4px;
-      opacity: 0.7;
-    }
-
-    /* ── Section headings ── */
-    .section-label {
-      font-size: 18px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color:  rgba(255, 255, 255, 0.699);
-      margin-bottom: 57px;
-    }
-
-    /* ── Projects list ── */
-    .projects-list {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.25s ease, border-color 0.25s ease,
-              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0.5;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-card.active {
-      transform: scale(1.06);
-      opacity: 1.0;
-      border-color: rgba(255,255,255,0.25);
-    }
-
-    .project-card.active:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.25);
-      transform: scale(1.07) translateY(-3px);
-    }
-
-    .project-card:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.2);
-      transform: scale(1.01) translateY(-3px);
-    }
-
-    .project-preview {
-      width: 100%;
-      height: 110px; 
-      transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--card-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .project-card.active .project-preview {
-      height: 220px;
-    }
-
-    .project-preview img {
-      width: 100%;
-      height: 100%;
-      opacity: 70%;
-      object-fit: cover;
-      display: block;
-      filter: blur(2px) brightness(0.7);
-      transition: filter 0.6s ease, transform 0.4s ease;
-    }
-
-    .project-card.active .project-preview img {
-      filter: blur(0px) brightness(1);
-    }
-
-    .project-card:hover .project-preview img {
-      transform: scale(1.01);
-    }
-
-    .project-preview-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    .project-preview-placeholder .card-icon {
-      width: 52px;
-      height: 52px;
-      opacity: 0.3;
-    }
-
-    .project-preview-placeholder .card-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-    }
-
-    .project-body {
-      padding: 31px 35px;
-      display: flex;
-      align-items: center;
-      gap: 22px;
-    }
-
-    .project-body .card-icon {
-      width: 44px;
-      height: 44px;
-      flex-shrink: 0;
-    }
-
-    .project-body .card-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1) opacity(0.7);
-    }
-
-    /* ── Project info + tags ── */
-    .project-info {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      flex: 1;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    /* Left cluster: title + tags stacked */
-    .project-info-left {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .project-info-left h3 {
-      font-size: 22px;
-      font-weight: 300;
-      letter-spacing: 0.02em;
-      color: var(--fg);
-    }
-
-    /* CHANGE 1: tags row — align-items center so chips match skill chip height */
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      align-items: center;
-    }
-
-    /* CHANGE 2: date pushed to the far right */
-    .project-info .project-date {
-      font-size: 14px;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-left: auto;
-    }
-
-    /* ── Experience ── */
-    .experience-entries {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .experience-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.4s ease,
-              background 0.4s ease,
-              opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
-      opacity: 0.5;  
-      overflow: hidden;
-      display: flex;
-      flex-direction: row;
-      min-height: 200px;
-    }
-
-    .experience-card.active {
-      transform: scale(1.06);
-      opacity: 1.0;
-      border-color: rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.07);
-    }
-
-    /* Image column — left by default */
-    .exp-photo {
-      width: 260px;
-      flex-shrink: 0;
-      overflow: hidden;
-      background: rgba(255,255,255,0.03);
-      border-right: 1px solid var(--card-border);
-      position: relative;
-    }
-
-    .exp-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .exp-photo.no-image {
-      display: none;
-    }
-
-    /* Image on the right */
-    .experience-card.img-right .exp-photo {
-      order: 2;
-      border-right: none;
-      border-left: 1px solid var(--card-border);
-    }
-
-    .experience-card.img-right .exp-card-body {
-      order: 1;
-    }
-
-    .exp-card-body {
-      padding: 22px 35px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      flex: 1;
-      justify-content: center;
-    }
-
-    /* Experience header — icon + title/org on left, date on right */
-    .exp-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 2px;
-    }
-
-    /* Left cluster of icon + title group */
-    .exp-header-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    /* Right cluster: date + type */
-    .exp-header-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .exp-header-right .exp-date {
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-      opacity: 0.85;
-      white-space: nowrap;
-    }
-
-    .exp-header-right .exp-type {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      opacity: 0.5;
-      white-space: nowrap;
-    }
-
-    .exp-icon {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .exp-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1) opacity(0.6);
-    }
-
-    .exp-icon svg {
-      width: 100%;
-      height: 100%;
-      opacity: 0.5;
-    }
-
-    .exp-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    /* CHANGE 3: role title — just the role, no company inline */
-    .exp-title-group .exp-role {
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: 0.02em;
-      color: var(--fg);
-    }
-
-    /* CHANGE 3: company name sits below the role title */
-    .exp-title-group .exp-company {
-      font-size: 15px;
-      font-weight: 300;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-
-    .exp-card-body .entry-period {
-      display: none;
-    }
-
-    .exp-card-body ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-top: 6px;
-    }
-
-    .exp-card-body ul li {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* ── Contact ── */
-    .contact-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-    }
-
-    .contact-card {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 26px 31px;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--fg);
-      transition: background 0.25s, border-color 0.25s,
-                  transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      max-width: 560px;
-    }
-
-    .contact-card:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.18);
-      transform: scale(1.06);
-    }
-
-    .contact-card .card-icon {
-      width: 35px;
-      height: 35px;
-      flex-shrink: 0;
-    }
-
-    .contact-card .card-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1) opacity(0.6);
-    }
-
-    .contact-card .contact-text {
-      font-size: 19px;
-      font-weight: 300;
-      letter-spacing: 0.04em;
-    }
-
-    /* ── Copyright ── */
-    .copyright {
-      position: fixed;
-      bottom: 20px;
-      right: 32px;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.2);
-      z-index: 100;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 860px) {
-      #about .about-grid { grid-template-columns: 1fr; }
-      #about .about-photo { display: none; }
-    }
-
-    @media (max-width: 700px) {
-      :root { --nav-width: 0px; }
-      .side-nav { display: none; }
-      .main { margin-left: 0; }
-      section { padding: 60px 28px; }
-      .experience-card,
-      .experience-card.img-right { flex-direction: column; }
-      .exp-photo {
-        width: 100%;
-        height: 160px;
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid var(--card-border);
-        order: 0 !important;
-      }
-      .exp-card-body { order: 1 !important; }
-      /* Stack project-info back to column on small screens */
-      .project-info {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .project-info .project-date {
-        margin-left: 0;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile.css">
 </head>
 
+<script>
+  // ── Mobile hamburger / drawer ─────────────────────
+  const hamburger    = document.getElementById('hamburger');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+  const mobileLinks  = document.querySelectorAll('.mobile-nav-link');
+ 
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    mobileDrawer.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+ 
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileDrawer.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+ 
+  // Close drawer and scroll to section when a link is tapped
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+ 
+  // ── Keep mobile drawer links in sync with active section ──
+  function updateMobileNav() {
+    const active = getActiveSection(); // reuse the function already in index.html
+    mobileLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.section === active);
+    });
+  }
+ 
+  window.addEventListener('scroll', updateMobileNav, { passive: true });
+  updateMobileNav();
+</script>
+
 <body class="is-loading">
+
+  <!-- Mobile top bar (hidden on desktop via CSS) -->
+  <div class="mobile-topbar" style="display:none;">
+    <span class="topbar-name">Paul Jablonski</span>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  
+  <!-- Mobile drawer nav (hidden on desktop via CSS) -->
+  <nav class="mobile-drawer" id="mobileDrawer" style="display:none;">
+    <a href="#home"       class="mobile-nav-link" data-section="home">Home</a>
+    <a href="#about"      class="mobile-nav-link" data-section="about">About</a>
+    <a href="#projects"   class="mobile-nav-link" data-section="projects">Projects</a>
+    <a href="#experience" class="mobile-nav-link" data-section="experience">Experience</a>
+    <a href="#education"  class="mobile-nav-link" data-section="education">Education</a>
+    <a href="#contact"    class="mobile-nav-link" data-section="contact">Contact</a>
+  </nav>
 
   <div id="loading-text">LOADING...</div>
 
@@ -1182,132 +242,186 @@
         <p class="section-label">Projects</p>
         <div class="projects-list">
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer')">
-            <div class="project-preview">
-              <img src="previews/granular.png" alt="Granular Synthesizer preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Nexus.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>Granular Synthesizer</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">C++</span>
-                    <span class="skill-chip">DSP</span>
-                    <span class="skill-chip">Real-Time</span>
-                  </div>
-                </div>
-                <span class="project-date">Jan 2025 – May 2025</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer')">
+              <div class="project-preview">
+                <img src="previews/granular.png" alt="Granular Synthesizer preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Nexus.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>Granular Synthesizer</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">C++</span>
+                      <span class="skill-chip">DSP</span>
+                      <span class="skill-chip">Real-Time</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Jan 2025 – May 2025</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System')">
-            <div class="project-preview">
-              <img src="previews/security.png" alt="Android Embedded Security System preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Security.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>Android Embedded Security System</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">Android</span>
-                    <span class="skill-chip">Java</span>
-                    <span class="skill-chip">DSP</span>
-                  </div>
-                </div>
-                <span class="project-date">Aug 2024 – Dec 2024</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System')">
+              <div class="project-preview">
+                <img src="previews/security.png" alt="Android Embedded Security System preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Security.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>Android Embedded Security System</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">Android</span>
+                      <span class="skill-chip">Java</span>
+                      <span class="skill-chip">DSP</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Aug 2024 – Dec 2024</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy')">
-            <div class="project-preview">
-              <img src="previews/cattoy.png" alt="Laser & Voice Assisted Cat Toy preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Cat.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>Laser &amp; Voice Assisted Cat Toy</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">PCB</span>
-                    <span class="skill-chip">Arduino</span>
-                    <span class="skill-chip">CAD</span>
-                  </div>
-                </div>
-                <span class="project-date">Aug 2024 – Dec 2024</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy')">
+              <div class="project-preview">
+                <img src="previews/cattoy.png" alt="Laser & Voice Assisted Cat Toy preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Cat.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>Laser &amp; Voice Assisted Cat Toy</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">PCB</span>
+                      <span class="skill-chip">Arduino</span>
+                      <span class="skill-chip">CAD</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Aug 2024 – Dec 2024</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics')">
-            <div class="project-preview">
-              <img src="previews/harmonics.png" alt="Illini Harmonics preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Harmonics.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>Music Sharing Platform</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">React</span>
-                    <span class="skill-chip">Node.js</span>
-                    <span class="skill-chip">mySQL</span>
-                    <span class="skill-chip">Spotify API</span>
-                  </div>
-                </div>
-                <span class="project-date">Jan 2024 – May 2024</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics')">
+              <div class="project-preview">
+                <img src="previews/harmonics.png" alt="Illini Harmonics preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Harmonics.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>Music Sharing Platform</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">React</span>
+                      <span class="skill-chip">Node.js</span>
+                      <span class="skill-chip">mySQL</span>
+                      <span class="skill-chip">Spotify API</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Jan 2024 – May 2024</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads')">
-            <div class="project-preview">
-              <img src="previews/fpga.png" alt="FPGA Soccer Heads preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/FPGA.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>FPGA Soccer Heads</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">SystemVerilog</span>
-                    <span class="skill-chip">FPGA</span>
-                    <span class="skill-chip">VGA</span>
-                    <span class="skill-chip">UART</span>
-                  </div>
-                </div>
-                <span class="project-date">Sep 2023 – Dec 2023</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads')">
+              <div class="project-preview">
+                <img src="previews/fpga.png" alt="FPGA Soccer Heads preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/FPGA.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>FPGA Soccer Heads</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">SystemVerilog</span>
+                      <span class="skill-chip">FPGA</span>
+                      <span class="skill-chip">VGA</span>
+                      <span class="skill-chip">UART</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Sep 2023 – Dec 2023</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
-          <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition')">
-            <div class="project-preview">
-              <img src="previews/handwriting.png" alt="Handwritten Text Recognition preview"
-                   onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Handwriting.svg\' alt=\'\'></div></div>'">
-            </div>
-            <div class="project-body">
-              <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
-              <div class="project-info">
-                <div class="project-info-left">
-                  <h3>Handwritten Text Recognition</h3>
-                  <div class="project-tags">
-                    <span class="skill-chip">Python</span>
-                    <span class="skill-chip">CNN</span>
-                    <span class="skill-chip">Image Processing</span>
-                    <span class="skill-chip">PyTorch</span>
-                  </div>
-                </div>
-                <span class="project-date">Sep 2023 – Oct 2023</span>
+          <div class="project-card-wrap">
+            <div class="project-card" onclick="window.open('https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition')">
+              <div class="project-preview">
+                <img src="previews/handwriting.png" alt="Handwritten Text Recognition preview"
+                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Handwriting.svg\' alt=\'\'></div></div>'">
               </div>
+              <div class="project-body">
+                <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
+                <div class="project-info">
+                  <div class="project-info-left">
+                    <h3>Handwritten Text Recognition</h3>
+                    <div class="project-tags">
+                      <span class="skill-chip">Python</span>
+                      <span class="skill-chip">CNN</span>
+                      <span class="skill-chip">Image Processing</span>
+                      <span class="skill-chip">PyTorch</span>
+                    </div>
+                  </div>
+                  <span class="project-date">Sep 2023 – Oct 2023</span>
+                </div>
+              </div>
+            </div>
+            <div class="project-read-more">
+              <div class="mouse-anim">
+                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
+                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
+              </div>
+              <span>Read More</span>
             </div>
           </div>
 
