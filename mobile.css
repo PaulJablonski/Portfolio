@@ -389,8 +389,8 @@
 
   .exp-icon { width: 32px; height: 32px; }
 
-  .exp-title-group .exp-role   { font-size: 14px; }
-  .exp-title-group .exp-company { font-size: 12px; }
+  .exp-title-group .exp-role   { font-size: 12px; }
+  .exp-title-group .exp-company { font-size: 11px; }
 
   .exp-header-right .exp-date { font-size: 11px; }
   .exp-header-right .exp-type { font-size: 10px; }
@@ -455,7 +455,7 @@
     transform: scale(1.03);
   }
 
-  #exp-photo-opticent img {
-    object-position: center bottom;
+  #exp-photo-opticent {
+    height: 170px;
   }
 }
