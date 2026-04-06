@@ -14,40 +14,67 @@
 </head>
 
 <script>
-  // ── Mobile hamburger / drawer ─────────────────────
-  const hamburger    = document.getElementById('hamburger');
-  const mobileDrawer = document.getElementById('mobileDrawer');
-  const mobileLinks  = document.querySelectorAll('.mobile-nav-link');
+  (function () {
+    const trigger       = document.getElementById('dropdownTrigger');
+    const menu          = document.getElementById('dropdownMenu');
+    const label         = document.getElementById('currentSectionLabel');
+    const menuLinks     = menu ? menu.querySelectorAll('a') : [];
  
-  function closeDrawer() {
-    hamburger.classList.remove('open');
-    mobileDrawer.classList.remove('open');
-    document.body.style.overflow = '';
-  }
+    if (!trigger || !menu) return; // not in DOM (e.g. desktop SSR)
  
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileDrawer.classList.toggle('open');
-    hamburger.classList.toggle('open', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
- 
-  // Close drawer and scroll to section when a link is tapped
-  mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      closeDrawer();
+    /* ── Toggle dropdown ── */
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isOpen = menu.classList.toggle('open');
+      trigger.classList.toggle('open', isOpen);
+      trigger.setAttribute('aria-expanded', isOpen);
     });
-  });
  
-  // ── Keep mobile drawer links in sync with active section ──
-  function updateMobileNav() {
-    const active = getActiveSection(); // reuse the function already in index.html
-    mobileLinks.forEach(link => {
-      link.classList.toggle('active', link.dataset.section === active);
+    /* ── Close on outside tap ── */
+    document.addEventListener('click', function () {
+      menu.classList.remove('open');
+      trigger.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
     });
-  }
  
-  window.addEventListener('scroll', updateMobileNav, { passive: true });
-  updateMobileNav();
+    /* ── Close + scroll when a link is tapped ── */
+    menuLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        menu.classList.remove('open');
+        trigger.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+    });
+ 
+    /* ── Sync label + active state with scroll ── */
+    const sectionNames = {
+      home:       'Home',
+      about:      'About',
+      projects:   'Projects',
+      experience: 'Experience',
+      education:  'Education',
+      contact:    'Contact',
+    };
+ 
+    function syncDropdown() {
+      // getActiveSection() is defined in the main index.html scroll script
+      if (typeof getActiveSection !== 'function') return;
+      var active = getActiveSection();
+ 
+      // Update trigger label
+      if (label && sectionNames[active]) {
+        label.textContent = sectionNames[active];
+      }
+ 
+      // Highlight the matching menu link
+      menuLinks.forEach(function (link) {
+        link.classList.toggle('active', link.dataset.section === active);
+      });
+    }
+ 
+    window.addEventListener('scroll', syncDropdown, { passive: true });
+    syncDropdown();
+  })();
 </script>
 
 <body class="is-loading">
@@ -55,11 +82,25 @@
   <!-- Mobile top bar (hidden on desktop via CSS) -->
   <div class="mobile-topbar" style="display:none;">
     <span class="topbar-name">Paul Jablonski</span>
-    <button class="hamburger" id="hamburger" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  
+    <div class="mobile-nav-dropdown" id="mobileNavDropdown">
+      <button class="dropdown-trigger" id="dropdownTrigger" aria-haspopup="true" aria-expanded="false">
+        <span id="currentSectionLabel">Home</span>
+        <!-- Chevron -->
+        <svg class="chevron" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+  
+      <div class="dropdown-menu" id="dropdownMenu" role="menu">
+        <a href="#home"       data-section="home"       role="menuitem">Home</a>
+        <a href="#about"      data-section="about"      role="menuitem">About</a>
+        <a href="#projects"   data-section="projects"   role="menuitem">Projects</a>
+        <a href="#experience" data-section="experience" role="menuitem">Experience</a>
+        <a href="#education"  data-section="education"  role="menuitem">Education</a>
+        <a href="#contact"    data-section="contact"    role="menuitem">Contact</a>
+      </div>
+    </div>
   </div>
   
   <!-- Mobile drawer nav (hidden on desktop via CSS) -->
