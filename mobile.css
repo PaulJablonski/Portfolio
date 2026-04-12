@@ -344,7 +344,70 @@
 
   .project-read-more { display: none; }
 
+  /* ── Expanded panel (mobile) ── */
+  .project-card-wrap:has(.project-card.is-expanded) {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
+  .expand-toolbar {
+    padding: 14px 16px;
+  }
+
+  .expand-minimize-btn {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .expand-minimize-btn svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .expand-github-btn {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    gap: 7px;
+  }
+
+  .expand-github-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .expand-body {
+    padding: 22px 16px 28px;
+    gap: 24px;
+  }
+
+  .expand-section h4 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+
+  .expand-section p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .expand-section p + p {
+    margin-top: 14px;
+  }
+
+  .expand-media-row,
+  .expand-media-row.media-wide {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .expand-figure figcaption {
+    font-size: 11px;
+  }
+
+  .expand-figure.full-width img {
+    max-height: 200px;
+  }
   /* ════════════════════════════
      EXPERIENCE
   ════════════════════════════ */
