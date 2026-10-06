@@ -1258,5 +1258,39 @@
     updateFocusedEduEntry();
   </script>
 
+  <!-- Simple visitor location logger (state / region level) -->
+  <script>
+  (function () {
+    // Free, no-key IP geolocation (ipapi.co free tier ≈ 1000 req/day)
+    // Accurate enough for state/province (region field)
+    fetch('https://ipapi.co/json/')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data || data.error) return;
+
+        var entry = {
+          time: new Date().toISOString(),
+          region: data.region || data.region_code || null,  // state / province
+          country: data.country_name || data.country || null,
+          country_code: data.country_code || null,
+          city: data.city || null
+          // ip: data.ip   // uncomment if you also want the IP (privacy note)
+        };
+
+        // Shows in DevTools → Console for testing
+        console.log('[visitor-location]', entry);
+
+        // To keep a real persistent log of all visitors, send it somewhere free:
+        // Option A (easiest): Google Apps Script that appends rows to a Sheet
+        // Option B: Free Supabase table + insert with anon key
+        // Option C: Cloudflare Worker / free webhook
+        // Uncomment and replace the URL:
+        //
+        // navigator.sendBeacon('https://YOUR_ENDPOINT_HERE', JSON.stringify(entry));
+      })
+      .catch(function () { /* never break the site */ });
+  })();
+  </script>
+
 </body>
 </html>
