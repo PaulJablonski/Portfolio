@@ -1261,34 +1261,35 @@
   <!-- Simple visitor location logger (state / region level) -->
   <script>
   (function () {
-    // Free, no-key IP geolocation (ipapi.co free tier ≈ 1000 req/day)
-    // Accurate enough for state/province (region field)
     fetch('https://ipapi.co/json/')
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (!data || data.error) return;
-
+  
         var entry = {
           time: new Date().toISOString(),
-          region: data.region || data.region_code || null,  // state / province
+          region: data.region || data.region_code || null,
           country: data.country_name || data.country || null,
           country_code: data.country_code || null,
           city: data.city || null
-          // ip: data.ip   // uncomment if you also want the IP (privacy note)
         };
-
-        // Shows in DevTools → Console for testing
+  
         console.log('[visitor-location]', entry);
-
-        // To keep a real persistent log of all visitors, send it somewhere free:
-        // Option A (easiest): Google Apps Script that appends rows to a Sheet
-        // Option B: Free Supabase table + insert with anon key
-        // Option C: Cloudflare Worker / free webhook
-        // Uncomment and replace the URL:
-        //
-        navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzcFfvcmOrywX7orK4_fyy82pJGLsl7dgpHk1dXJcvjIB4mT3ofi6BB3as_E71VPt24/exec', JSON.stringify(entry));
+  
+        // Put your Google Apps Script web app URL here
+        var endpoint = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+  
+        fetch(endpoint, {
+          method: 'POST',
+          mode: 'no-cors',               // important for Apps Script
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(entry),
+          keepalive: true
+        }).catch(function(){});
       })
-      .catch(function () { /* never break the site */ });
+      .catch(function () {});
   })();
   </script>
 
