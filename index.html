@@ -9,9 +9,13 @@
   <meta name="theme-color" content="#111111">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="mobile.css">
-  <link rel="stylesheet" href="project-expand.css">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="mobile.css?v=3">
+
 </head>
 
 <script>
@@ -165,6 +169,15 @@
     </div>
   </div>
 
+  <!-- "Read more" hint — floats in the right gutter beside the project grid -->
+  <div class="read-more-hint" id="readMoreHint" aria-hidden="true">
+    <div class="read-more-mouse">
+      <img src="icons/mouse-click.png" alt="">
+      <img src="icons/mouse-click-2.png" alt="">
+    </div>
+    <span class="read-more-label">Read More</span>
+  </div>
+
   <!-- Scrollable content -->
   <main class="main">
 
@@ -187,7 +200,7 @@
               <div class="hero-title-pill">
                 <span class="pill-role">Systems Engineer</span>
                 <span class="pill-sep">-</span>
-                <span class="pill-org">Opticent Health</span>
+                <span class="pill-org">Opticent</span>
               </div>
               <div class="hero-title-pill">
                 <span class="pill-role">Research Technologist II</span>
@@ -202,12 +215,12 @@
         <div class="home-skills">
           <div class="home-skills-row">
             <span class="skill-chip">Solidworks CAD</span>
-            <span class="skill-chip">PCB Design</span>
+            <span class="skill-chip">DSP</span>
+            <span class="skill-chip">Control Systems</span>
             <span class="skill-chip">C++</span>
             <span class="skill-chip">Python</span>
             <span class="skill-chip">Image Processing</span>
-            <span class="skill-chip">DSP</span>
-            <span class="skill-chip">FPGA</span>
+            <span class="skill-chip">PCB</span>
             <span class="skill-chip">Linux</span>
             <span class="skill-chip">Git</span>
             <span class="skill-chip">OCT</span>
@@ -250,7 +263,7 @@
         <div class="hobbies-block hobbies-full">
           <p class="hobbies-label">Outside the Lab</p>
           <div class="home-skills-row">
-            <span class="skill-chip">Music production</span>
+            <span class="skill-chip">Painting</span>
             <span class="skill-chip">Snowboarding</span>
             <span class="skill-chip">Game development</span>
             <span class="skill-chip">Caffeine connoisseur</span>
@@ -265,731 +278,267 @@
 
     <!-- PROJECTS -->
         <section id="projects">
-      <div class="section-inner">
+      <div class="section-inner projects-section-inner">
         <p class="section-label">Projects</p>
-        <div class="projects-list">
- 
+        <div class="projects-grid">
+
           <!-- ── Granular Synthesizer ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer">
-              <div class="project-preview">
-                <img src="previews/granular.png" alt="Granular Synthesizer preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Nexus.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>Granular Synthesizer</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">C++</span>
-                      <span class="skill-chip">DSP</span>
-                      <span class="skill-chip">Real-Time</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Jan 2025 – May 2025</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="granular">
+            <div class="project-preview">
+              <img src="previews/granular.png" alt="Granular Synthesizer preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Nexus.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-granular">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-granular">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Nexus.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>Granular Synthesizer</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">C++</span>
+                    <span class="skill-chip">DSP</span>
+                    <span class="skill-chip">Real-Time</span>
+                  </div>
                 </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A real-time granular synthesis VST3 plugin built with the JUCE C++ framework, fully compatible with
-                      DAWs like Ableton Live and FL Studio. The plugin deconstructs incoming audio into micro-sound grains
-                      and resynthesizes them into new textures by controlling grain size, timing, pitch, density, and
-                      randomness — originally scoped for FPGA deployment, then pivoted to software to prioritize flexibility
-                      and rapid iteration.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Plugin Interface</h4>
-                    <figure class="expand-figure full-width">
-                      <img src="projects/granular_gui.png" alt="Granular synthesizer GUI">
-                      <figcaption>JUCE-based GUI with rotary sliders and tooltips for all parameters</figcaption>
-                    </figure>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>How It Works</h4>
-                    <div class="expand-media-row media-wide">
-                      <div>
-                        <p>
-                          Audio is continuously fed into a circular buffer, which is sliced into individual grains at
-                          configurable sizes and intervals. Each grain is independently pitch-shifted, time-stretched,
-                          and shaped with a Hann window envelope to eliminate clicks and discontinuities at grain boundaries.
-                        </p>
-                        <br>
-                        <p>
-                          Grains are dynamically layered according to density and randomization parameters, producing
-                          textures ranging from shimmering pads to glitched artifacts. A dry/wet blend control mixes
-                          the resynthesized output back against the original signal, and all parameters are fully
-                          automatable within the DAW environment.
-                        </p>
-                      </div>
-                      <figure class="expand-figure">
-                        <img src="projects/granular_results.png" alt="Granular synthesizer DSP pipeline">
-                        <figcaption>Example usage with waveform previews</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                </div>
+                <span class="project-date">Jan 2025 – May 2025</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
+
           <!-- ── Android Embedded Security System ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System">
-              <div class="project-preview">
-                <img src="previews/security.png" alt="Android Embedded Security System preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Security.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>Android Embedded Security System</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">Android</span>
-                      <span class="skill-chip">Java</span>
-                      <span class="skill-chip">DSP</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Aug 2024 – Dec 2024</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="security">
+            <div class="project-preview">
+              <img src="previews/security.png" alt="Android Embedded Security System preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Security.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-security">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-security">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Security.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>Android Embedded Security System</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">Android</span>
+                    <span class="skill-chip">Java</span>
+                    <span class="skill-chip">DSP</span>
+                  </div>
                 </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A data-conservative Android security system that eliminates storage waste by isolating and storing only
-                      human subjects — not entire frames. People are detected via background subtraction against a calibration
-                      image, cropped to tight bounding boxes, and assigned unique identity labels through Euclidean color
-                      distance comparison, enabling cross-reference across footage with minimal storage overhead.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Detection Examples</h4>
-                    <div class="expand-media-row">
-                      <figure class="expand-figure">
-                        <img src="projects/android_single.png" alt="Single person detection">
-                        <figcaption>Single subject detection — labeled, timestamped, with top six color composition displayed</figcaption>
-                      </figure>
-                      <figure class="expand-figure">
-                        <img src="projects/android_multiple.png" alt="Multiple object detection">
-                        <figcaption>Multi-subject detection — unique labels and color profiles assigned per person</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>DSP Pipeline</h4>
-                    <div class="expand-media-row">
-                      <div>
-                        <p>
-                          Live frames are bitmask-differenced against a calibration image to isolate foreground subjects.
-                          Canny edge detection outlines each subject, and a custom flood-fill algorithm groups edges by
-                          orientation. Groups are reduced to their average pixel position, then density-based clustering
-                          forms tight bounding box proposals around each person.
-                        </p>
-                        <p>
-                          Each proposal is analyzed with a k-means implementation to extract the six dominant colors
-                          from subjects. These color vectors are compared against stored entries via
-                          Euclidean distance to either assign an existing label or register a new identity.
-                        </p>
-                        <p>
-                          Fully manual implementations of flood-fill, DB-scan clustering, and k-means color
-                      analysis — no external CV libraries beyond OpenCV for Canny.
-                        </p>
-                      </div>
-                      <figure class="expand-figure">
-                        <img src="projects/android_pipeline.png" alt="Security system pipeline diagram">
-                        <figcaption>Overall DSP and image processing pipeline</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                </div>
+                <span class="project-date">Aug 2024 – Dec 2024</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
+
           <!-- ── Laser & Voice Assisted Cat Toy ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy">
-              <div class="project-preview">
-                <img src="previews/cattoy.png" alt="Laser & Voice Assisted Cat Toy preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Cat.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>Laser &amp; Voice Assisted Cat Toy</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">PCB</span>
-                      <span class="skill-chip">Arduino</span>
-                      <span class="skill-chip">CAD</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Aug 2024 – Dec 2024</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="cattoy">
+            <div class="project-preview">
+              <img src="previews/cattoy.png" alt="Laser &amp; Voice Assisted Cat Toy preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Cat.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-cattoy">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-cattoy">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Cat.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>Laser &amp; Voice Assisted Cat Toy</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">PCB</span>
+                    <span class="skill-chip">Arduino</span>
+                    <span class="skill-chip">CAD</span>
+                  </div>
                 </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A mouse-shaped robotic cat toy built from scratch with a custom PCB, CAD-designed enclosure, and
-                      Arduino firmware. Beyond basic movement, the toy features a distance-measuring laser for collision
-                      avoidance, a vibration sensor that detects when the cat catches it, and a microphone-and-speaker
-                      system for voice command interaction — allowing the user to locate or activate the toy hands-free.
-                      Received an Honorable Mention award at UIUC, placing in the top 7 among nearly 50 groups.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Design & Build</h4>
-                    <div class="expand-media-row">
-                      <figure class="expand-figure">
-                        <img src="projects/laser_concept.png" alt="Concept render of cat toy">
-                        <figcaption>Initial concept render showing disassembled front and back</figcaption>
-                      </figure>
-                      <figure class="expand-figure">
-                        <img src="projects/laser_cad.png" alt="Finalized CAD model">
-                        <figcaption>Finalized CAD model (my first ever CAD)</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Hardware Design</h4>
-                    <div class="expand-media-row media-wide">
-                      <div>
-                        <p>
-                          The toy is driven by two NEMA 17 stepper motors via A4988 drivers, with two SG90 servos
-                          handling the animated tail and treat-dispensing latch at the rear. An ATmega328p
-                          microcontroller serves as the central state machine, coordinating sensor inputs and motor
-                          outputs across four subsystems: sensors, microcontroller, motors and outputs, and power.
-                        </p>
-                        <br>
-                        <p>
-                          Power is supplied by an 11.1V lithium-ion battery regulated down through three AZ1117
-                          voltage regulators, with a CYT1091 button for clean power switching. Audio output is
-                          driven by a PAM8302 amplifier paired with a JSM 2.5mm speaker for voice feedback and
-                          sound effects.
-                        </p>
-                      </div>
-                      <figure class="expand-figure">
-                        <img src="projects/laser_pcb.png" alt="Main PCB design">
-                        <figcaption>Main PCB design and assembly</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Functionality Demos</h4>
-                    <div class="expand-media-row">
-                      <figure class="expand-figure">
-                        <img src="projects/laser_led.png" alt="Motor operations demo">
-                        <figcaption>Motor operation and laser-triggered directional changes — red LED for direction, green for motor steps</figcaption>
-                      </figure>
-                      <figure class="expand-figure">
-                        <img src="projects/laser_treats.png" alt="Treat dispensing demo">
-                        <figcaption>Vibration detection and treat dispensing — triggered after three detected catches</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                </div>
+                <span class="project-date">Aug 2024 – Dec 2024</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
+
           <!-- ── Music Sharing Platform ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics">
-              <div class="project-preview">
-                <img src="previews/harmonics.png" alt="Illini Harmonics preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Harmonics.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>Music Sharing Platform</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">React</span>
-                      <span class="skill-chip">Node.js</span>
-                      <span class="skill-chip">mySQL</span>
-                      <span class="skill-chip">Spotify API</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Jan 2024 – May 2024</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="harmonics">
+            <div class="project-preview">
+              <img src="previews/harmonics.png" alt="Illini Harmonics preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Harmonics.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-harmonics">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-harmonics">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
-                </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A GCP-hosted music sharing platform where users register accounts, log in, and create posts rating
-                      songs and artists from their listening history. Song, artist, and user data is sourced via the
-                      Spotify API and stored in a mySQL database on GCP, with a React and Node.js frontend serving
-                      pages for posts, artists, music, and friends.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Stack & Architecture</h4>
-                    <div class="expand-media-row media-wide">
-                      <div>
-                        <p>
-                          The backend establishes a Node.js connection to the GCP mySQL database, populating the
-                          frontend with live data across all pages. SQL stored procedures handle login and signup
-                          validation against stored credentials, while triggers maintain data integrity across
-                          post insertions, deletions, and edits.
-                        </p>
-                        <br>
-                        <p>
-                          Initial database population was automated via a Python script using the Spotify API,
-                          generating CSV files that seeded the mySQL tables with real song and artist data.
-                          The frontend is composed of TSX components styled with CSS, with each page — Posts,
-                          Artists, Music, and Friends — driven by parameterized SQL queries.
-                        </p>
-                      </div>
-                      <figure class="expand-figure">
-                        <img src="projects/harmonics_gcp.png" alt="GCP MySQL console">
-                        <figcaption>GCP sample queries</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Pages</h4>
-                    <div class="expand-media-row">
-                      <figure class="expand-figure">
-                        <img src="projects/harmonics_home.png" alt="Illini Harmonics home page">
-                        <figcaption>Home page of Illini Harmonics</figcaption>
-                      </figure>
-                      <figure class="expand-figure">
-                        <img src="projects/harmonics_posts.png" alt="Ratings and posts page">
-                        <figcaption>Posts page displaying user-submitted song ratings</figcaption>
-                      </figure>
-                    </div>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Harmonics.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>Music Sharing Platform</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">React</span>
+                    <span class="skill-chip">Node.js</span>
+                    <span class="skill-chip">mySQL</span>
                   </div>
                 </div>
+                <span class="project-date">Jan 2024 – May 2024</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
+
           <!-- ── FPGA Soccer Heads ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads">
-              <div class="project-preview">
-                <img src="previews/fpga.png" alt="FPGA Soccer Heads preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/FPGA.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>FPGA Soccer Heads</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">SystemVerilog</span>
-                      <span class="skill-chip">FPGA</span>
-                      <span class="skill-chip">VGA</span>
-                      <span class="skill-chip">UART</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Sep 2023 – Dec 2023</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="fpga">
+            <div class="project-preview">
+              <img src="previews/fpga.png" alt="FPGA Soccer Heads preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/FPGA.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-fpga">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-fpga">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/FPGA.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>FPGA Soccer Heads</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">SystemVerilog</span>
+                    <span class="skill-chip">FPGA</span>
+                    <span class="skill-chip">VGA</span>
+                    <span class="skill-chip">UART</span>
+                  </div>
                 </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A recreation of the classic flash game Soccer Heads, implemented in SystemVerilog and C on a
-                      Microblaze FPGA board. Two players compete in a timed 2D soccer match — one controlled via
-                      keyboard, one by an onboard AI — with real-time physics, sprite animation, scorekeeping, and
-                      full VGA/HDMI display output.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Gameplay & Demo</h4>
-                    <div class="expand-media-row">
-                      <figure class="expand-figure">
-                        <img src="projects/fpga_home.png" alt="FPGA Soccer Heads main menu">
-                        <figcaption>Sprite-drawn main menu with background and button sprites</figcaption>
-                      </figure>
-                      <figure class="expand-figure">
-                        <img src="projects/fpga_game.png" alt="FPGA Soccer Heads gameplay">
-                        <figcaption>Live gameplay with player, goal, ball, and background sprites</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>System Architecture</h4>
-                    <div class="expand-media-row media-wide">
-                      <div>
-                        <p>
-                          A top-level SystemVerilog module ties together the VGA controller, color mapper, physics
-                          ball module, player and AI modules, FSM, scoreboard, hex display drivers, and
-                          Microblaze block design. 
-                        </p>
-                        <p>
-                          SPI protocols connect peripheral devices via a MAX3421e
-                          interface, and ROM-based block memory IPs store sprite and palette data via generated
-                          COE files.
-                        </p>
-                      </div>
-                      <figure class="expand-figure">
-                        <img src="projects/fpga_block.png" alt="FPGA block diagram">
-                        <figcaption>Overall block diagram for project toplevel</figcaption>
-                      </figure>
-                    </div>
-                  </div>
-
-
-                </div>
+                <span class="project-date">Sep 2023 – Dec 2023</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
+
           <!-- ── Handwritten Text Recognition ── -->
-          <div class="project-card-wrap">
-            <div class="project-card"
-                 data-github="https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition">
-              <div class="project-preview">
-                <img src="previews/handwriting.png" alt="Handwritten Text Recognition preview"
-                    onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Handwriting.svg\' alt=\'\'></div></div>'">
-              </div>
-              <div class="project-body">
-                <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
-                <div class="project-info">
-                  <div class="project-info-left">
-                    <h3>Handwritten Text Recognition</h3>
-                    <div class="project-tags">
-                      <span class="skill-chip">Python</span>
-                      <span class="skill-chip">CNN</span>
-                      <span class="skill-chip">Image Processing</span>
-                    </div>
-                  </div>
-                  <span class="project-date">Sep 2023 – Oct 2023</span>
-                </div>
-              </div>
+          <div class="project-card" data-project="handwriting">
+            <div class="project-preview">
+              <img src="previews/handwriting.png" alt="Handwritten Text Recognition preview"
+                  onerror="this.parentElement.innerHTML='<div class=\'project-preview-placeholder\'><div class=\'card-icon\'><img src=\'icons/Handwriting.svg\' alt=\'\'></div></div>'">
             </div>
- 
-            <div class="project-expanded" id="expand-handwriting">
-              <div class="expand-inner">
-                <div class="expand-toolbar">
-                  <button class="expand-minimize-btn" data-target="expand-handwriting">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M11 9L7 5L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Minimize
-                  </button>
-                  <a class="expand-github-btn"
-                     href="https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition"
-                     target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                    View on GitHub
-                  </a>
-                </div>
-                <div class="expand-body">
-
-                  <div class="expand-section">
-                    <h4>Overview</h4>
-                    <p>
-                      A handwritten character recognition app built with a linear SVM model trained on the EMNIST
-                      dataset. Input images are convolved with edge and line detection kernels before classification,
-                      achieving over 85% accuracy. A PyQt desktop UI allows users to draw characters directly on a
-                      canvas, which are preprocessed, convolved, and classified in real time.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Model & Pipeline</h4>
-                    <p>
-                      Training data is passed through 2D convolution with identifying kernels that detect edges and
-                      lines within 28×28 input images. The resulting feature representations are used to fit a linear
-                      SVM, which is then exported and imported into the UI application. User-drawn input is
-                      preprocessed and recentered before being fed through the same convolution pipeline and
-                      classified by the model.
-                    </p>
-                  </div>
-
-                  <hr class="expand-divider">
-
-                  <div class="expand-section">
-                    <h4>Interface</h4>
-                    <figure class="expand-figure full-width">
-                      <img src="previews/handwriting.png" alt="Handwritten text recognition UI">
-                      <figcaption>PyQt UI — canvas input before and after character drawing and classification</figcaption>
-                    </figure>
+            <div class="project-body">
+              <div class="card-icon"><img src="icons/Handwriting.svg" alt=""></div>
+              <div class="project-info">
+                <div class="project-info-left">
+                  <h3>Handwritten Text Recognition</h3>
+                  <div class="project-tags">
+                    <span class="skill-chip">Python</span>
+                    <span class="skill-chip">CNN</span>
+                    <span class="skill-chip">Image Processing</span>
                   </div>
                 </div>
+                <span class="project-date">Sep 2023 – Oct 2023</span>
               </div>
-            </div>
- 
-            <div class="project-read-more">
-              <div class="mouse-anim">
-                <img class="mouse-frame" src="icons/mouse-click.png" alt="">
-                <img class="mouse-frame" src="icons/mouse-click-2.png" alt="">
-              </div>
-              <span>Read More</span>
             </div>
           </div>
- 
-        </div>
+
+        </div><!-- /.projects-grid -->
+
+        <!-- ══════════════════════════════════════
+             PROJECT DETAIL OVERLAY
+             Replaces grid content in-place when a card is clicked.
+             Shown via .projects-section-inner.detail-open
+        ══════════════════════════════════════ -->
+        <div class="project-detail" id="projectDetail" aria-hidden="true">
+          <div class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+
+          <!-- Close button -->
+          <button class="detail-close" id="detailClose" aria-label="Close">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <!-- Dynamic content injected by JS -->
+          <div class="detail-scroll">
+            <div class="detail-header">
+              <div class="detail-header-left">
+                <div class="detail-icon"><img id="detailIcon" src="" alt=""></div>
+                <div class="detail-title-block">
+                  <span id="detailDate" class="detail-date-eyebrow"></span>
+                  <h2 id="detailTitle"></h2>
+                  <div id="detailTags" class="project-tags"></div>
+                </div>
+              </div>
+              <a id="detailGithub" class="expand-github-btn" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                View on GitHub
+              </a>
+            </div>
+            <div id="detailBody" class="detail-body"></div>
+          </div>
+
+          </div><!-- /.detail-panel -->
+        </div><!-- /.project-detail -->
+
       </div>
     </section>
 
     <!-- EXPERIENCE -->
     <section id="experience">
-      <div class="section-inner">
+      <div class="section-inner experience-section-inner">
         <p class="section-label">Experience</p>
 
-        <div class="experience-entries">
+        <!-- Photo-driven showcase: pick a job on the left; its renders show on the right.
+             Renders + captions are listed in EXP_RENDERS in the Experience script below. -->
+        <div class="exp-showcase">
 
-          <!-- Opticent Health — image left -->
-          <div class="experience-card">
-            <div class="exp-photo" id="exp-photo-opticent">
-              <img src="experience/opticent.jpg" alt="Opticent Health"
-                   onerror="document.getElementById('exp-photo-opticent').classList.add('no-image')">
+          <div class="exp-col">
+            <div class="exp-jobs" role="tablist" aria-label="Jobs">
+              <button class="exp-job is-active" type="button" role="tab" data-job="opticent" aria-selected="true">
+                <img class="exp-job-logo" src="icons/Opticent.svg" alt="">
+                <span class="exp-job-text">
+                  <span class="exp-job-role">Systems Engineer</span>
+                  <span class="exp-job-company">Opticent</span>
+                </span>
+                <span class="exp-job-meta">
+                  <span class="exp-job-date">Oct 2025 – Present</span>
+                  <span class="exp-job-type">Full-time</span>
+                </span>
+              </button>
+
+              <button class="exp-job" type="button" role="tab" data-job="northwestern" aria-selected="false">
+                <img class="exp-job-logo" src="icons/NU.svg" alt="">
+                <span class="exp-job-text">
+                  <span class="exp-job-role">Research Technologist II</span>
+                  <span class="exp-job-company">Northwestern University</span>
+                </span>
+                <span class="exp-job-meta">
+                  <span class="exp-job-date">Mar 2026 – Present</span>
+                  <span class="exp-job-type">Part-time</span>
+                </span>
+              </button>
             </div>
-            <div class="exp-card-body">
-              <div class="exp-header">
-                <div class="exp-header-left">
-                  <div class="exp-icon">
-                    <img src="icons/Opticent.svg" alt="Opticent Health"
-                         onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><circle cx=\'12\' cy=\'12\' r=\'3\'/><path d=\'M2 12C2 12 5 5 12 5s10 7 10 7-3 7-10 7S2 12 2 12z\'/></svg>'">
-                  </div>
-                  <div class="exp-title-group">
-                    <span class="exp-role">Systems Engineer</span>
-                    <span class="exp-company">Opticent Health</span>
-                  </div>
-                </div>
-                <div class="exp-header-right">
-                  <span class="exp-date">Oct 2025 – Present</span>
-                  <span class="exp-type">Full-time</span>
+
+            <div class="exp-sep" aria-hidden="true"></div>
+
+            <div class="exp-desc">
+              <div class="exp-pane is-active" data-job="opticent" role="tabpanel">
+                <p class="exp-eyebrow">What I do</p>
+                <ul>
+                  <li>Leading OCT mechanical redesign and footprint reduction, aiming to take our systems towards the clinical level.</li>
+                  <li>Designing optomechanics for both adjustable-path reference arms and our laser attenuation/spectral shaping module.</li>
+                  <li>Designing, standardizing, and documenting wire harnesses for our visible-light OCT systems.</li>
+                  <li>Leading our company's rebrand and modernization.</li>
+                </ul>
+                <div class="exp-chips">
+                  <span class="skill-chip">Optomechanics</span>
+                  <span class="skill-chip">SolidWorks</span>
+                  <span class="skill-chip">Mechanical Design</span>
                 </div>
               </div>
-              <ul>
-                <li>• Fully redesigning and reducing the footprint of OCT imaging systems for metrology and human research.</li>
-                <li>• Researching and automating liquid lens calibration to accelerate and improve system calibration during assembly.</li>
-                <li>• Standardizing, documenting, and designing wire harnesses for cutting-edge visible-light OCT imaging systems.</li>
-                <li>• Aiming to take our systems to the clinical level.</li>
-              </ul>
+
+              <div class="exp-pane" data-job="northwestern" role="tabpanel">
+                <p class="exp-eyebrow">What I do</p>
+                <ul>
+                  <li>Supporting biomedical engineering PhD candidates in their research, providing expertise in CAD.</li>
+                  <li>Helping students visualize and formalize their physical work and prototypes.</li>
+                  <li>Contributing to the further development and documentation of visible-light imaging technology.</li>
+                </ul>
+                <div class="exp-chips">
+                  <span class="skill-chip">CAD</span>
+                  <span class="skill-chip">Zemax</span>
+                  <span class="skill-chip">Optomechanics</span>
+                  <span class="skill-chip">Vis-OCT</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Northwestern University — image left -->
-          <div class="experience-card img-left">
-            <div class="exp-photo" id="exp-photo-northwestern">
-              <img src="experience/northwestern.jpg" alt="Northwestern University"
-                  onerror="document.getElementById('exp-photo-northwestern').classList.add('no-image')">
-            </div>
-            <div class="exp-card-body">
-              <div class="exp-header">
-                <div class="exp-header-left">
-                  <div class="exp-icon">
-                    <img src="icons/NU.svg" alt="Northwestern University"
-                        onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M12 3L2 9l10 6 10-6-10-6z\'/><path d=\'M2 15l10 6 10-6\'/><path d=\'M2 12l10 6 10-6\'/></svg>'">
-                  </div>
-                  <div class="exp-title-group">
-                    <span class="exp-role">Research Technologist II</span>
-                    <span class="exp-company">Northwestern University</span>
-                  </div>
-                </div>
-                <div class="exp-header-right">
-                  <span class="exp-date">Mar 2026 – Present</span>
-                  <span class="exp-type">Part-time</span>
-                </div>
-              </div>
-              <ul>
-                <li>• Supporting biomedical engineering PhD candidates in their research, providing expertise in programming and CAD.</li>
-                <li>• Contributing to the further development and documentation of visible-light imaging technology.</li>
-              </ul>
+          <div class="exp-stage" aria-live="polite">
+            <div class="exp-stage-images"></div>
+            <button class="exp-arrow prev" type="button" aria-label="Previous image">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="exp-arrow next" type="button" aria-label="Next image">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="exp-strip">
+              <span class="exp-caption"></span>
+              <div class="exp-dots"></div>
             </div>
           </div>
 
@@ -1001,29 +550,48 @@
     <section id="education">
       <div class="section-inner">
         <p class="section-label">Education</p>
-        <div class="education-entries">
+        <div class="edu-grid">
 
-          <div class="education-entry">
-            <div class="edu-icon">
-              <img src="icons/GT.svg" alt="Georgia Tech"
-                   onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z\'/><path d=\'M9 22V12h6v10\'/></svg>'">
+          <!-- Georgia Tech -->
+          <div class="edu-card">
+            <div class="edu-card-head">
+              <img class="edu-card-logo" src="icons/GT-tight.svg" alt="Georgia Tech">
+              <div class="edu-card-title">
+                <span class="edu-card-degree">M.S. Electrical &amp; Computer Engineering</span>
+                <span class="edu-card-school">Georgia Institute of Technology</span>
+              </div>
             </div>
-            <div class="edu-text">
-              <span class="edu-degree">M.S. Electrical &amp; Computer Engineering</span>
-              <span class="edu-school">Georgia Institute of Technology</span>
-              <span class="edu-period">2025 – Present</span>
+            <div class="edu-card-body">
+              <span class="edu-card-label">Concentrations</span>
+              <div class="edu-card-chips">
+                <span class="skill-chip">Digital Signal Processing</span>
+                <span class="skill-chip">Control Systems</span>
+              </div>
+            </div>
+            <div class="edu-card-foot">
+              <div class="edu-card-gpa-block">
+                <span class="edu-card-label">GPA</span>
+                <span class="edu-card-gpa">3.67</span>
+              </div>
+              <span class="edu-card-date">2025 – Present</span>
             </div>
           </div>
 
-          <div class="education-entry">
-            <div class="edu-icon">
-              <img src="icons/UIUC.svg" alt="UIUC"
-                   onerror="this.outerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.2\'><path d=\'M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1V9z\'/><path d=\'M9 22V12h6v10\'/></svg>'">
+          <!-- UIUC -->
+          <div class="edu-card">
+            <div class="edu-card-head">
+              <img class="edu-card-logo" src="icons/UIUC-tight.svg" alt="University of Illinois">
+              <div class="edu-card-title">
+                <span class="edu-card-degree">B.S. Computer Engineering</span>
+                <span class="edu-card-school">University of Illinois Urbana-Champaign</span>
+              </div>
             </div>
-            <div class="edu-text">
-              <span class="edu-degree">B.S. Computer Engineering</span>
-              <span class="edu-school">University of Illinois Urbana-Champaign</span>
-              <span class="edu-period">2021 – 2025</span>
+            <div class="edu-card-foot">
+              <div class="edu-card-gpa-block">
+                <span class="edu-card-label">GPA</span>
+                <span class="edu-card-gpa">3.37</span>
+              </div>
+              <span class="edu-card-date">2021 – 2025</span>
             </div>
           </div>
 
@@ -1037,18 +605,34 @@
         <p class="section-label">Contact</p>
         <div class="contact-cards">
 
-          <a onclick="window.open('https://www.linkedin.com/in/pauljohnjablonski/')" class="contact-card">
-            <div class="card-icon"><img src="icons/LinkedIn.svg" alt="LinkedIn"></div>
-            <span class="contact-text">LinkedIn</span>
-          </a>
-
-          <a class="contact-card">
-            <div class="card-icon"><img src="icons/Email.svg" alt="Email"></div>
+          <a href="mailto:pauljohnjablonski@gmail.com" class="contact-card is-preferred">
+            <div class="contact-card-top">
+              <div class="contact-title">
+                <div class="card-icon"><img src="icons/Email.svg" alt=""></div>
+                <span class="contact-label">Email</span>
+              </div>
+              <span class="contact-badge">Preferred</span>
+            </div>
             <span class="contact-text"><span class="__cf_email__" data-cfemail="621203170e080d0a0c0803000e0d0c11090b22050f030b0e4c010d0f">pauljohnjablonski@gmail.com</span></span>
           </a>
 
-          <a class="contact-card">
-            <div class="card-icon"><img src="icons/Number.svg" alt="Phone"></div>
+          <a href="https://www.linkedin.com/in/pauljohnjablonski/" target="_blank" rel="noopener" class="contact-card">
+            <div class="contact-card-top">
+              <div class="contact-title">
+                <div class="card-icon"><img src="icons/LinkedIn.svg" alt=""></div>
+                <span class="contact-label">LinkedIn</span>
+              </div>
+            </div>
+            <span class="contact-text">pauljohnjablonski</span>
+          </a>
+
+          <a href="tel:+12248752504" class="contact-card">
+            <div class="contact-card-top">
+              <div class="contact-title">
+                <div class="card-icon"><img src="icons/Number.svg" alt=""></div>
+                <span class="contact-label">Phone</span>
+              </div>
+            </div>
             <span class="contact-text">(224) 875-2504</span>
           </a>
 
@@ -1100,198 +684,468 @@
     updateNav();
   </script>
 
+
+    <script>
+    /* ══════════════════════════════════════════════
+       PROJECT DETAIL OVERLAY
+    ══════════════════════════════════════════════ */
+
+    const PROJECT_DATA = {
+      granular: {
+        title: 'Granular Synthesizer',
+        icon: 'icons/Nexus.svg',
+        date: 'Jan 2025 – May 2025',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/Granular%20Synthesizer',
+        tags: ['C++', 'DSP', 'Real-Time'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A real-time granular synthesis VST3 plugin built with the JUCE C++ framework, fully compatible with DAWs like Ableton Live and FL Studio. The plugin deconstructs incoming audio into micro-sound grains and resynthesizes them into new textures by controlling grain size, timing, pitch, density, and randomness — originally scoped for FPGA deployment, then pivoted to software to prioritize flexibility and rapid iteration.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Plugin Interface</h4>
+            <figure class="expand-figure full-width">
+              <img src="projects/granular_gui.png" alt="Granular synthesizer GUI">
+              <figcaption>JUCE-based GUI with rotary sliders and tooltips for all parameters</figcaption>
+            </figure>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>How It Works</h4>
+            <div class="expand-media-row media-wide">
+              <div>
+                <p>Audio is continuously fed into a circular buffer, which is sliced into individual grains at configurable sizes and intervals. Each grain is independently pitch-shifted, time-stretched, and shaped with a Hann window envelope to eliminate clicks and discontinuities at grain boundaries.</p>
+                <p>Grains are dynamically layered according to density and randomization parameters, producing textures ranging from shimmering pads to glitched artifacts. A dry/wet blend control mixes the resynthesized output back against the original signal, and all parameters are fully automatable within the DAW environment.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/granular_results.png" alt="Granular synthesizer DSP pipeline">
+                <figcaption>Example usage with waveform previews</figcaption>
+              </figure>
+            </div>
+          </div>`
+      },
+      security: {
+        title: 'Android Embedded Security System',
+        icon: 'icons/Security.svg',
+        date: 'Aug 2024 – Dec 2024',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/Android%20Embedded%20Security%20System',
+        tags: ['Android', 'Java', 'DSP'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A data-conservative Android security system that eliminates storage waste by isolating and storing only human subjects — not entire frames. People are detected via background subtraction against a calibration image, cropped to tight bounding boxes, and assigned unique identity labels through Euclidean color distance comparison, enabling cross-reference across footage with minimal storage overhead.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Detection Examples</h4>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/android_single.png" alt="Single person detection">
+                <figcaption>Single subject detection — labeled, timestamped, with top six color composition displayed</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/android_multiple.png" alt="Multiple object detection">
+                <figcaption>Multi-subject detection — unique labels and color profiles assigned per person</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>DSP Pipeline</h4>
+            <div class="expand-media-row">
+              <div>
+                <p>Live frames are bitmask-differenced against a calibration image to isolate foreground subjects. Canny edge detection outlines each subject, and a custom flood-fill algorithm groups edges by orientation. Groups are reduced to their average pixel position, then density-based clustering forms tight bounding box proposals around each person.</p>
+                <p>Each proposal is analyzed with a k-means implementation to extract the six dominant colors from subjects. These color vectors are compared against stored entries via Euclidean distance to either assign an existing label or register a new identity.</p>
+                <p>Fully manual implementations of flood-fill, DB-scan clustering, and k-means color analysis — no external CV libraries beyond OpenCV for Canny.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/android_pipeline.png" alt="Security system pipeline diagram">
+                <figcaption>Overall DSP and image processing pipeline</figcaption>
+              </figure>
+            </div>
+          </div>`
+      },
+      cattoy: {
+        title: 'Laser & Voice Assisted Cat Toy',
+        icon: 'icons/Cat.svg',
+        date: 'Aug 2024 – Dec 2024',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/Laser%20%26%20Voice%20Assisted%20Cat%20Toy',
+        tags: ['PCB', 'Arduino', 'CAD'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A mouse-shaped robotic cat toy built from scratch with a custom PCB, CAD-designed enclosure, and Arduino firmware. Beyond basic movement, the toy features a distance-measuring laser for collision avoidance, a vibration sensor that detects when the cat catches it, and a microphone-and-speaker system for voice command interaction — allowing the user to locate or activate the toy hands-free. Received an Honorable Mention award at UIUC, placing in the top 7 among nearly 50 groups.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Design & Build</h4>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/laser_concept.png" alt="Concept render of cat toy">
+                <figcaption>Initial concept render showing disassembled front and back</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/laser_cad.png" alt="Finalized CAD model">
+                <figcaption>Finalized CAD model (my first ever CAD)</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Hardware Design</h4>
+            <div class="expand-media-row media-wide">
+              <div>
+                <p>The toy is driven by two NEMA 17 stepper motors via A4988 drivers, with two SG90 servos handling the animated tail and treat-dispensing latch at the rear. An ATmega328p microcontroller serves as the central state machine, coordinating sensor inputs and motor outputs across four subsystems: sensors, microcontroller, motors and outputs, and power.</p>
+                <p>Power is supplied by an 11.1V lithium-ion battery regulated down through three AZ1117 voltage regulators, with a CYT1091 button for clean power switching. Audio output is driven by a PAM8302 amplifier paired with a JSM 2.5mm speaker for voice feedback and sound effects.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/laser_pcb.png" alt="Main PCB design">
+                <figcaption>Main PCB design and assembly</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Functionality Demos</h4>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/laser_led.png" alt="Motor operations demo">
+                <figcaption>Motor operation and laser-triggered directional changes — red LED for direction, green for motor steps</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/laser_treats.png" alt="Treat dispensing demo">
+                <figcaption>Vibration detection and treat dispensing — triggered after three detected catches</figcaption>
+              </figure>
+            </div>
+          </div>`
+      },
+      harmonics: {
+        title: 'Music Sharing Platform',
+        icon: 'icons/Harmonics.svg',
+        date: 'Jan 2024 – May 2024',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/Illini%20Harmonics',
+        tags: ['React', 'Node.js', 'mySQL'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A GCP-hosted music sharing platform where users register accounts, log in, and create posts rating songs and artists from their listening history. Song, artist, and user data is sourced via the Spotify API and stored in a mySQL database on GCP, with a React and Node.js frontend serving pages for posts, artists, music, and friends.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Stack & Architecture</h4>
+            <div class="expand-media-row media-wide">
+              <div>
+                <p>The backend establishes a Node.js connection to the GCP mySQL database, populating the frontend with live data across all pages. SQL stored procedures handle login and signup validation against stored credentials, while triggers maintain data integrity across post insertions, deletions, and edits.</p>
+                <p>Initial database population was automated via a Python script using the Spotify API, generating CSV files that seeded the mySQL tables with real song and artist data. The frontend is composed of TSX components styled with CSS, with each page — Posts, Artists, Music, and Friends — driven by parameterized SQL queries.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/harmonics_gcp.png" alt="GCP MySQL console">
+                <figcaption>GCP sample queries</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Pages</h4>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/harmonics_home.png" alt="Illini Harmonics home page">
+                <figcaption>Home page of Illini Harmonics</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/harmonics_posts.png" alt="Ratings and posts page">
+                <figcaption>Posts page displaying user-submitted song ratings</figcaption>
+              </figure>
+            </div>
+          </div>`
+      },
+      fpga: {
+        title: 'FPGA Soccer Heads',
+        icon: 'icons/FPGA.svg',
+        date: 'Sep 2023 – Dec 2023',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/FPGA%20Soccer%20Heads',
+        tags: ['SystemVerilog', 'FPGA', 'VGA', 'UART'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A recreation of the classic flash game Soccer Heads, implemented in SystemVerilog and C on a Microblaze FPGA board. Two players compete in a timed 2D soccer match — one controlled via keyboard, one by an onboard AI — with real-time physics, sprite animation, scorekeeping, and full VGA/HDMI display output.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Gameplay & Demo</h4>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/fpga_home.png" alt="FPGA Soccer Heads main menu">
+                <figcaption>Sprite-drawn main menu with background and button sprites</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/fpga_game.png" alt="FPGA Soccer Heads gameplay">
+                <figcaption>Live gameplay with player, goal, ball, and background sprites</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>System Architecture</h4>
+            <div class="expand-media-row media-wide">
+              <div>
+                <p>A top-level SystemVerilog module ties together the VGA controller, color mapper, physics ball module, player and AI modules, FSM, scoreboard, hex display drivers, and Microblaze block design.</p>
+                <p>SPI protocols connect peripheral devices via a MAX3421e interface, and ROM-based block memory IPs store sprite and palette data via generated COE files.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/fpga_block.png" alt="FPGA block diagram">
+                <figcaption>Overall block diagram for project toplevel</figcaption>
+              </figure>
+            </div>
+          </div>`
+      },
+      handwriting: {
+        title: 'Handwritten Text Recognition',
+        icon: 'icons/Handwriting.svg',
+        date: 'Sep 2023 – Oct 2023',
+        github: 'https://github.com/PaulJablonski/Resume-Projects/tree/main/Handwritten%20Text%20Recognition',
+        tags: ['Python', 'CNN', 'Image Processing'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>A handwritten character recognition app built with a linear SVM model trained on the EMNIST dataset. Input images are convolved with edge and line detection kernels before classification, achieving over 85% accuracy. A PyQt desktop UI allows users to draw characters directly on a canvas, which are preprocessed, convolved, and classified in real time.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Model & Pipeline</h4>
+            <p>Training data is passed through 2D convolution with identifying kernels that detect edges and lines within 28×28 input images. The resulting feature representations are used to fit a linear SVM, which is then exported and imported into the UI application. User-drawn input is preprocessed and recentered before being fed through the same convolution pipeline and classified by the model.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Interface</h4>
+            <figure class="expand-figure full-width">
+              <img src="previews/handwriting.png" alt="Handwritten text recognition UI">
+              <figcaption>PyQt UI — canvas input before and after character drawing and classification</figcaption>
+            </figure>
+          </div>`
+      }
+    };
+
+    const sectionInner  = document.querySelector('#projects .projects-section-inner');
+    const grid          = document.querySelector('.projects-grid');
+    const detail        = document.getElementById('projectDetail');
+    const detailClose   = document.getElementById('detailClose');
+
+    // Keep the header icon square and exactly as tall as the title block
+    const detailIconBox   = document.querySelector('#projectDetail .detail-icon');
+    const detailTitleBox  = document.querySelector('#projectDetail .detail-title-block');
+    new ResizeObserver(() => {
+      detailIconBox.style.width = detailTitleBox.offsetHeight + 'px';
+    }).observe(detailTitleBox);
+
+    function openDetail(key) {
+      const data = PROJECT_DATA[key];
+      if (!data) return;
+
+      // Populate header
+      document.getElementById('detailIcon').src       = data.icon;
+      document.getElementById('detailIcon').alt       = data.title;
+      document.getElementById('detailTitle').textContent = data.title;
+      document.getElementById('detailDate').textContent  = data.date;
+      document.getElementById('detailGithub').href    = data.github;
+
+      const tagsEl = document.getElementById('detailTags');
+      tagsEl.innerHTML = data.tags.map(t => `<span class="skill-chip">${t}</span>`).join('');
+
+      const bodyEl = document.getElementById('detailBody');
+      bodyEl.innerHTML = data.body;
+      // Decode images off the main thread so they don't stall the fade-in
+      bodyEl.querySelectorAll('img').forEach(img => { img.decoding = 'async'; });
+
+      // Reset scroll before showing
+      detail.querySelector('.detail-scroll').scrollTop = 0;
+      detail.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Start the fade on the next frame, after the new content has laid out,
+      // so layout work and the transition don't land in the same frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => sectionInner.classList.add('detail-open'));
+      });
+    }
+
+    function closeDetail() {
+      if (!sectionInner.classList.contains('detail-open')) return;
+      sectionInner.classList.remove('detail-open');
+      detail.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => openDetail(card.dataset.project));
+    });
+
+    detailClose.addEventListener('click', closeDetail);
+
+    // Close when clicking the dimmed backdrop outside the panel
+    detail.addEventListener('click', e => {
+      if (e.target === detail) closeDetail();
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDetail();
+    });
+
+    // Close when any nav link is clicked (side nav or mobile nav)
+    document.querySelectorAll('.nav-link, .mobile-nav-link, .dropdown-menu a').forEach(link => {
+      link.addEventListener('click', closeDetail);
+    });
+  </script>
+
   <script>
-    const projectCards = document.querySelectorAll('.project-card');
-  
-    // Cooldown prevents auto-minimize from firing during the scroll-into-view
-    // that happens right after expanding a card
-    let expandCooldown = false;
-  
-    function collapseCard(card) {
-      const wrap  = card.closest('.project-card-wrap');
-      const panel = wrap.querySelector('.project-expanded');
+    /* ── Experience showcase ──
+       Add renders here: { src: 'experience/your-file.jpg', caption: 'Short caption' }
+       Optional: fit: 'contain' to show the whole image instead of filling the stage. */
+    const EXP_RENDERS = {
+      opticent: [
+        { src: 'experience/opticent-a.webp', caption: 'AuroraX4-C — our human corneal OCT imaging system. I designed its new sample arm, mounting frame, enclosure shell, and fixation light, shaping both its optomechanics and form.' },
+        { src: 'experience/opticent-b.webp', caption: 'Proposed AuroraX5-R — retinal OCT, consolidated onto a single height-adjustable table to shrink its footprint and reduce shipping, travel, and overall costs.' },
+        { src: 'experience/opticent-c.webp', caption: 'HaloM400 — our newly developed metrology system. I led the overall system design outside the optics: power management, cooling, enclosure, and I/O.' },
+        { src: 'experience/opticent-d.webp', caption: 'Opticent Website — replaced our outdated Wix site with a custom HTML/CSS static site, adding trackable metrics and greater control over customer interactions.' },
+        { src: 'experience/opticent-e.webp', caption: 'Product Logo Redesigns — refreshed branding for a more professional, memorable identity, and a showcase of my enjoyment of design.' }
+      ],
+      northwestern: [
+        { src: 'experience/northwestern-a.webp', caption: 'Closed-Loop Retinal Stimulation Platform — my render of our DMD and tunable-lens optical setup, which delivers fundus camera-verified patterned stimuli to the living mouse retina at 6.7 μm resolution.' }
+      ]
+    };
 
-      card.classList.remove('is-expanded');
-      card.classList.add('is-collapsing');   // preserve border shape during close
+    (function () {
+      const root    = document.querySelector('.exp-showcase');
+      if (!root) return;
+      const jobs    = root.querySelectorAll('.exp-job');
+      const panes   = root.querySelectorAll('.exp-pane');
+      const stage   = root.querySelector('.exp-stage');
+      const imgWrap = root.querySelector('.exp-stage-images');
+      const caption = root.querySelector('.exp-caption');
+      const dots    = root.querySelector('.exp-dots');
+      const prev    = root.querySelector('.exp-arrow.prev');
+      const next    = root.querySelector('.exp-arrow.next');
 
-      panel.classList.add('is-closing');     // start fade-out animation first
-
-      requestAnimationFrame(() => {          // one frame later: trigger grid collapse
-        panel.classList.remove('open');      // now fade-out is already running, no flash
+      // Build every image once so switching is a pure crossfade
+      const imgs = {};
+      Object.entries(EXP_RENDERS).forEach(([job, list]) => {
+        imgs[job] = list.map(r => {
+          const el = document.createElement('img');
+          el.src = r.src; el.alt = r.caption || ''; el.decoding = 'async'; el.loading = 'lazy';
+          if (r.fit === 'contain') el.classList.add('fit-contain');
+          imgWrap.appendChild(el);
+          return el;
+        });
       });
 
-      setTimeout(() => {
-        panel.classList.remove('is-closing');
-        card.classList.remove('is-collapsing');
-      }, 600);
-    }
-  
-    /* ── Scroll-based focus + auto-minimize ── */
-    function updateFocusedCard() {
-      const viewportCenter = window.innerHeight / 2;
-  
-      // Skip auto-minimize while an expand scroll animation is in flight
-      if (!expandCooldown) {
-        projectCards.forEach(card => {
-          if (!card.classList.contains('is-expanded')) return;
-          const wrap      = card.closest('.project-card-wrap');
-          const panel     = wrap.querySelector('.project-expanded');
-          const panelRect = panel.getBoundingClientRect();
-          const cardRect  = card.getBoundingClientRect();
-          const halfway   = 3 * window.innerHeight / 5;
-          if (panelRect.bottom < halfway || cardRect.top > window.innerHeight * 0.35) {
-            collapseCard(card);
-          }
-        });
-      }
-  
-      // If any card is still expanded, freeze others — don't reassign active
-      const anyExpanded = [...projectCards].some(c => c.classList.contains('is-expanded'));
-      if (anyExpanded) {
-        projectCards.forEach(card => {
-          if (!card.classList.contains('is-expanded')) card.classList.remove('active');
-        });
-        return;
-      }
-  
-      // Normal: highlight closest card to viewport center
-      let closestCard = null;
-      let closestDist = Infinity;
-      projectCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
-        if (dist < closestDist) { closestDist = dist; closestCard = card; }
-      });
-      projectCards.forEach(card => card.classList.remove('active'));
-      if (closestCard) closestCard.classList.add('active');
-    }
-  
-    window.addEventListener('scroll', updateFocusedCard, { passive: true });
-    updateFocusedCard();
-  
-    /* ── Expand / collapse on card click ── */
-    projectCards.forEach(card => {
-      card.addEventListener('click', function (e) {
-        if (e.target.closest('a, button')) return;
-  
-        const wrap   = card.closest('.project-card-wrap');
-        const panel  = wrap.querySelector('.project-expanded');
-        const isOpen = panel.classList.contains('open');
-  
-        if (isOpen) {
-          collapseCard(card);
-          updateFocusedCard();
-        } else {
-          // Collapse any other open panel first
-          document.querySelectorAll('.project-expanded.open').forEach(p => {
-            collapseCard(p.closest('.project-card-wrap').querySelector('.project-card'));
-          });
-  
-          panel.classList.add('open');
-          card.classList.add('is-expanded');
-          card.classList.remove('active');
-  
-          // Set cooldown before scrolling so auto-minimize ignores the scroll event
-          expandCooldown = true;
-          setTimeout(() => {
-            card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 80);
-          // Release cooldown after scroll settles
-          setTimeout(() => { expandCooldown = false; }, 1200);
+      let job = 'opticent', idx = 0;
+
+      function render() {
+        const list = EXP_RENDERS[job] || [];
+        Object.values(imgs).flat().forEach(el => el.classList.remove('is-active'));
+        if (imgs[job] && imgs[job][idx]) imgs[job][idx].classList.add('is-active');
+        // "Title — description" renders as a bold title line over the description
+        const text = list[idx] ? list[idx].caption : '';
+        const [title, ...rest] = text.split(' — ');
+        caption.replaceChildren();
+        const t = document.createElement('span');
+        t.className = 'exp-caption-title'; t.textContent = title;
+        caption.appendChild(t);
+        if (rest.length) {
+          const d = document.createElement('span');
+          d.className = 'exp-caption-desc';
+          const desc = rest.join(' — ');
+          d.textContent = desc.charAt(0).toUpperCase() + desc.slice(1);
+          caption.appendChild(d);
         }
+        const multi = list.length > 1;
+        stage.classList.toggle('single', !multi);
+        dots.innerHTML = multi ? list.map((_, i) =>
+          `<button type="button" class="${i === idx ? 'is-active' : ''}" aria-label="Image ${i + 1}" data-i="${i}"></button>`).join('') : '';
+      }
+
+      function selectJob(key) {
+        if (key === job) return;
+        job = key; idx = 0;
+        jobs.forEach(b => {
+          const on = b.dataset.job === key;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-selected', on);
+        });
+        panes.forEach(p => p.classList.toggle('is-active', p.dataset.job === key));
+        render();
+      }
+
+      function step(d) {
+        const n = (EXP_RENDERS[job] || []).length;
+        if (n < 2) return;
+        idx = (idx + d + n) % n;
+        render();
+      }
+
+      // Hover selects on desktop; click/tap and keyboard focus work everywhere.
+      // The last job selected stays selected when the pointer leaves.
+      jobs.forEach(b => {
+        b.addEventListener('mouseenter', () => selectJob(b.dataset.job));
+        b.addEventListener('focus',      () => selectJob(b.dataset.job));
+        b.addEventListener('click',      () => selectJob(b.dataset.job));
       });
-    });
-  
-    /* ── Minimize buttons ── */
-    document.querySelectorAll('.expand-minimize-btn').forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const panel = document.getElementById(btn.dataset.target);
-        const card  = panel.closest('.project-card-wrap').querySelector('.project-card');
-        collapseCard(card);
-        updateFocusedCard();
+      prev.addEventListener('click', () => step(-1));
+      next.addEventListener('click', () => step(1));
+      dots.addEventListener('click', e => {
+        const i = e.target.dataset && e.target.dataset.i;
+        if (i !== undefined) { idx = +i; render(); }
       });
-    });
+
+      render();
+    })();
   </script>
 
   <script>
-    /* ── Experience cards: focus nearest to center ── */
-    const expCards = document.querySelectorAll('.experience-card');
+    /* ── "Read more" hint: follows scroll only inside the Projects grid ── */
+    (function () {
+      const hint = document.getElementById('readMoreHint');
+      const grid = document.querySelector('.projects-grid');
+      if (!hint || !grid) return;
+      let ticking = false;
 
-    function updateFocusedExpCard() {
-      const viewportCenter = window.innerHeight / 2;
-      let closestCard = null, closestDist = Infinity;
+      function update() {
+        ticking = false;
+        const r   = grid.getBoundingClientRect();
+        const vh  = window.innerHeight;
+        // Right edge of the visible content area (excludes the scrollbar)
+        const edge   = Math.min(grid.closest('section').getBoundingClientRect().right,
+                                document.body.clientWidth);
+        const gutter = edge - r.right;
+        const hw  = hint.offsetWidth;
+        const hh  = hint.offsetHeight;
+        const GAP = 20;   // distance from the cards' right edge
 
-      expCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
-        if (dist < closestDist) { closestDist = dist; closestCard = card; }
-      });
+        // Visible only while the grid occupies the middle of the screen,
+        // and only if there's room for the hint beside the cards
+        const inSection = r.top < vh * 0.55 && r.bottom > vh * 0.45;
+        const fits      = gutter >= GAP + hw + 8;
+        hint.classList.toggle('visible', inSection && fits);
+        if (!fits) return;
 
-      expCards.forEach(card => card.classList.remove('active'));
-      if (closestCard) closestCard.classList.add('active');
-    }
+        // Sit just right of the cards; track the viewport centre, clamped to the grid
+        const x = r.right + GAP;
+        const y = Math.min(Math.max(vh / 2 - hh / 2, r.top), r.bottom - hh);
+        hint.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      }
 
-    window.addEventListener('scroll', updateFocusedExpCard, { passive: true });
-    updateFocusedExpCard();
+      function request() {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }
+
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      // Images in the grid can change its height as they load
+      new ResizeObserver(request).observe(grid);
+      request();
+    })();
   </script>
-
-  <script>
-    /* ── Education entries: focus nearest to center ── */
-    const eduEntries = document.querySelectorAll('.education-entry');
-
-    function updateFocusedEduEntry() {
-      const viewportCenter = window.innerHeight / 2;
-      let closestEntry = null, closestDist = Infinity;
-
-      eduEntries.forEach(entry => {
-        const rect = entry.getBoundingClientRect();
-        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
-        if (dist < closestDist) { closestDist = dist; closestEntry = entry; }
-      });
-
-      eduEntries.forEach(entry => entry.classList.remove('active'));
-      if (closestEntry) closestEntry.classList.add('active');
-    }
-
-    window.addEventListener('scroll', updateFocusedEduEntry, { passive: true });
-    updateFocusedEduEntry();
-  </script>
-
-  <!-- Simple visitor location logger (state / region level) -->
-  <script>
-  (function () {
-    fetch('https://ipapi.co/json/')
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        if (!data || data.error) return;
-  
-        var entry = {
-          time: new Date().toISOString(),
-          region: data.region || data.region_code || null,
-          country: data.country_name || data.country || null,
-          country_code: data.country_code || null,
-          city: data.city || null
-        };
-  
-        console.log('[visitor-location]', entry);
-  
-        // Put your Google Apps Script web app URL here
-        var endpoint = 'https://script.google.com/macros/s/AKfycbzcFfvcmOrywX7orK4_fyy82pJGLsl7dgpHk1dXJcvjIB4mT3ofi6BB3as_E71VPt24/exec';
-  
-        fetch(endpoint, {
-          method: 'POST',
-          mode: 'no-cors',               // important for Apps Script
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify(entry),
-          keepalive: true
-        }).catch(function(){});
-      })
-      .catch(function () {});
-  })();
-  </script>
-
 </body>
 </html>

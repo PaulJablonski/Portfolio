@@ -5,6 +5,15 @@
   #about .about-grid {
     grid-template-columns: 1fr;
   }
+
+  .projects-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* Tablet & phone: cards are narrow, so stack the date under the tags */
+  .project-info { flex-direction: column; gap: 8px; }
+  .project-info .project-date { padding-top: 0; text-align: left; }
 }
 
 
@@ -280,120 +289,55 @@
   /* ════════════════════════════
      PROJECTS
   ════════════════════════════ */
-  .projects-list { gap: 14px; }
-
-
-
-  .project-card.active {
-    border-color: rgba(255,255,255,0.22);
-  }
-
-  /* Keep hover alive */
-  .project-card:hover {
-    transform: translateY(-2px) !important;
-  }
-
-  .project-card.active:hover {
-    transform: translateY(-2px) !important;
-  }
-
-  /* Fixed preview height — no expand on focus */
-  .project-preview,
-  .project-card.active .project-preview {
-    height: 120px !important;
-    transition: none;
-  }
-
-  .project-preview img {
-    filter: blur(0px) brightness(0.85) !important;
-    opacity: 85% !important;
-  }
-
-  .project-card:hover .project-preview img {
-    transform: scale(1.02);
-  }
-
-  .project-body {
-    padding: 14px 16px;
+  .projects-grid {
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  .project-body .card-icon {
-    width: 30px;
-    height: 30px;
+  .project-preview { height: 130px; }
+
+  .project-body {
+    padding: 13px 15px;
+    gap: 10px;
   }
 
-  .project-info {
+  .project-body .card-icon { width: 26px; height: 26px; }
+  .project-info-left h3 { font-size: 13px; }
+
+  /* Detail overlay full-screen on mobile — transparent bg, no left-edge fade needed */
+  .project-detail {
+    left: 0;
+    padding: 0;
+  }
+
+  .project-detail::before {
+    background: rgba(12, 12, 12, 0.92);
+  }
+
+  .detail-panel {
+    max-width: none;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .detail-scroll {
+    padding: 68px 20px 48px;
+  }
+
+  .detail-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 16px;
+    padding-right: 44px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
   }
 
-  .project-info-left h3 {
-    font-size: 15px;
-    letter-spacing: 0.01em;
-  }
-
-  .project-tags { gap: 5px; }
-
-  .project-info .project-date {
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    margin-left: 0;
-  }
-
-  .project-read-more { display: none; }
-
-  /* ── Expanded panel (mobile) ── */
-  .project-card-wrap:has(.project-card.is-expanded) {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .expand-toolbar {
-    padding: 14px 16px;
-  }
-
-  .expand-minimize-btn {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-  }
-
-  .expand-minimize-btn svg {
-    width: 11px;
-    height: 11px;
-  }
-
-  .expand-github-btn {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    padding: 6px 12px;
-    gap: 7px;
-  }
-
-  .expand-github-btn svg {
-    width: 13px;
-    height: 13px;
-  }
-
-  .expand-body {
-    padding: 22px 16px 28px;
-    gap: 24px;
-  }
-
-  .expand-section h4 {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-  }
-
-  .expand-section p {
-    font-size: 13px;
-    line-height: 1.8;
-  }
-
-  .expand-section p + p {
-    margin-top: 14px;
-  }
+  .detail-header-left { gap: 16px; }
+  .detail-icon { max-width: 64px; }
+  .detail-header h2 { font-size: 22px; }
 
   .expand-media-row,
   .expand-media-row.media-wide {
@@ -401,13 +345,9 @@
     gap: 16px;
   }
 
-  .expand-figure figcaption {
-    font-size: 11px;
-  }
+  .expand-section p { font-size: 14px; }
 
-  .expand-figure.full-width img {
-    max-height: 200px;
-  }
+  .detail-scroll { flex: 1; overflow-y: auto; }
   /* ════════════════════════════
      EXPERIENCE
   ════════════════════════════ */
@@ -477,11 +417,16 @@
     background: rgba(255,255,255,0.05);
   }
 
-  .edu-icon { width: 32px; height: 32px; }
+  /* Phone: smaller logo column; date stays top-right on the first line */
+  .edu-icon { width: 56px; max-height: 44px; }
+  .edu-icon img { max-width: 56px; object-fit: contain; }
 
   .education-entry .edu-degree { font-size: 14px; }
   .education-entry .edu-school { font-size: 12px; }
-  .education-entry .edu-period { font-size: 11px; }
+  .education-entry .edu-period {
+    font-size: 12px;
+    padding-top: 1px;
+  }
 
 
   /* ════════════════════════════
@@ -491,23 +436,28 @@
 
   .contact-card {
     max-width: 100%;
-    padding: 18px 16px;
-    gap: 16px;
+    padding: 18px 18px 20px;
   }
+  .contact-card-top { margin-bottom: 14px; }
 
   .contact-card:hover {
     transform: scale(1.03);
   }
 
-  .contact-card .card-icon   { width: 24px; height: 24px; }
+  .project-card:hover {
+    transform: scale(1.03);
+  }
+
+  .contact-card .card-icon   { width: 22px; height: 22px; }
+  .contact-label { font-size: 13px; }
   .contact-card .contact-text { font-size: 13px; }
 
 }
 /* end @media 700px */
 
 @media (max-width: 700px) {
-  .project-card.active {
-    transform: scale(1.03);
+  .projects-grid {
+    grid-template-columns: 1fr;
   }
 
   .experience-card.active {
@@ -525,4 +475,68 @@
   #exp-photo-opticent img {
     object-position: center 20%;
   }
+}
+
+/* ═══════════════════════════════════════════════
+   EXPERIENCE SHOWCASE — tablet & phone
+   Stacks as: job selectors → render stage → description
+   ═══════════════════════════════════════════════ */
+/* Layout switches on the section's own width (container query), since the
+   side nav eats a different amount of the window at different sizes */
+.experience-section-inner { container-type: inline-size; }
+
+@container (max-width: 1060px) {
+  .exp-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .exp-col { display: contents; }
+  .exp-jobs {
+    order: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .exp-job { min-width: 0; }
+  .exp-job-role { white-space: normal; }
+  .exp-stage { order: 2; min-height: 0; aspect-ratio: 4 / 3; }
+  .exp-sep   { display: none; }
+  .exp-desc  { order: 3; }
+  .exp-arrow { opacity: 1; }
+}
+
+@container (max-width: 680px) {
+  .exp-jobs  { grid-template-columns: minmax(0, 1fr); }
+  .exp-stage { aspect-ratio: 4 / 3; }
+}
+
+@media (max-width: 700px) {
+  .exp-job { padding: 14px 16px; gap: 12px; }
+  .exp-job-logo { width: 30px; height: 30px; }
+  .exp-job-role { font-size: 14px; white-space: normal; }
+  .exp-job-company { font-size: 12px; }
+  .exp-job-date { font-size: 11px; }
+  .exp-job-type { font-size: 9px; }
+  .exp-desc { padding: 18px 18px; }
+  .exp-pane li { font-size: 13px; }
+  .exp-caption-title { font-size: 13px; }
+  .exp-caption-desc  { font-size: 12px; line-height: 1.45; }
+  .exp-strip {
+    padding: 56px 16px 14px; gap: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.78) 65%, rgba(0,0,0,0) 100%);
+  }
+  .exp-arrow { top: 36%; }  /* keep arrows clear of the caption */
+}
+
+
+/* Education cards — phone sizing */
+@media (max-width: 700px) {
+  .edu-card { padding: 20px 20px 18px; }
+  .edu-card:hover { transform: scale(1.03); }
+  .edu-card-head { margin-bottom: 18px; gap: 14px; }
+  .edu-card-logo { height: 40px; max-width: 64px; }
+  .edu-card-date { font-size: 12px; }
+  .edu-card-degree { font-size: 16px; }
+  .edu-card-school { font-size: 13px; }
+  .edu-card-body { margin-bottom: 18px; }
+  .edu-card-gpa { font-size: 24px; }
 }
