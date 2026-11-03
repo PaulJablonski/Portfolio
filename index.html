@@ -169,7 +169,7 @@
     </div>
   </div>
 
-  <!-- "Read more" hint — floats in the right gutter beside the project grid -->
+  <!-- "Read more" hint: floats in the right gutter beside the project grid -->
   <div class="read-more-hint" id="readMoreHint" aria-hidden="true">
     <div class="read-more-mouse">
       <img src="icons/mouse-click.png" alt="">
@@ -281,6 +281,30 @@
       <div class="section-inner projects-section-inner">
         <p class="section-label">Projects</p>
         <div class="projects-grid">
+
+          <!-- ── EIDO Monocycle (featured, full width) ── -->
+          <div class="project-card is-featured" data-project="eido">
+            <div class="project-preview">
+              <img src="previews/eido.webp" alt="EIDO counterweighted monocycle render">
+            </div>
+            <div class="project-body">
+              <div class="featured-top">
+                <span class="featured-badge">Featured</span>
+                <span class="featured-date">Jan 2026 – Jul 2026</span>
+              </div>
+              <div class="featured-title">
+                <div class="card-icon"><img src="icons/Monocycle.svg" alt=""></div>
+                <h3>EIDO: Counterweighted Monocycle</h3>
+              </div>
+              <p class="featured-summary">A single-wheeled robot that steers by sliding a counterweight straight through the middle of the wheel instead of swinging it along an arc. I modeled it in MuJoCo with a 200 Hz cascaded PID controller and found that the counterweight makes an excellent, nearly linear steering actuator, while the wheel keeps itself upright on its own above about 1.2 m/s.</p>
+              <div class="project-tags">
+                <span class="skill-chip">MuJoCo</span>
+                <span class="skill-chip">Python</span>
+                <span class="skill-chip">Control Systems</span>
+                <span class="skill-chip">SolidWorks</span>
+              </div>
+            </div>
+          </div>
 
           <!-- ── Granular Synthesizer ── -->
           <div class="project-card" data-project="granular">
@@ -691,6 +715,128 @@
     ══════════════════════════════════════════════ */
 
     const PROJECT_DATA = {
+      eido: {
+        title: 'EIDO: Counterweighted Monocycle',
+        icon: 'icons/Monocycle.svg',
+        date: 'Jan 2026 – Jul 2026',
+        github: '',
+        tags: ['MuJoCo', 'Python', 'Control Systems', 'SolidWorks'],
+        body: `
+          <div class="expand-section">
+            <h4>Overview</h4>
+            <p>EIDO (Equilibrium through Inertial Dynamic Offsets) is a single-wheeled robot I designed around one question. Every published monocycle balances and steers by moving a mass along an arc, whether that is a swinging pendulum, a precessing gyroscope, a spinning flywheel, or a set of articulated legs. Could a counterweight sliding in a straight line through the center of the wheel do the same job while leaving far more of the interior free?</p>
+            <p>To find out, I built a MuJoCo simulation of the vehicle and controlled it with a cascaded PID controller running at a realistic 200 Hz. The short answer is yes, but not for the reason I originally proposed. The counterweight turned out to be an excellent steering actuator and a poor balancing one. Above roughly 1.2 m/s the wheel holds itself upright the same way a rolling coin does, and the counterweight steers it with almost perfectly linear authority.</p>
+          </div>
+          <figure class="expand-figure full-width eido-hero">
+            <img src="projects/eido_hero.webp" alt="EIDO1B final assembly render">
+            <figcaption>EIDO1B, the final design</figcaption>
+          </figure>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Mechanical Design</h4>
+            <div class="expand-media-row media-wide">
+              <div>
+                <p>The wheel is an outer ring with a timing belt clamped around its inner perimeter. The chassis rides on that belt, driven by a single motor through a 5:1 reduction, while rollers keep it centered in the ring. The counterweight travels on a linear rail that runs straight through the center of the wheel, perpendicular to the direction of travel, so nothing inside the wheel sweeps out a lateral arc.</p>
+                <p>This layout has two useful side effects. The chassis center of mass hangs 98 mm below the axle, which makes pitch a stable pendulum instead of an inverted one. And because the rail runs parallel to the chassis hinge, the counterweight passes through the center at any chassis angle. Steering and pitch are therefore decoupled, and each can be handled by its own control loop.</p>
+              </div>
+              <figure class="expand-figure">
+                <img src="projects/eido_chassis_a.webp" alt="EIDO internal chassis render">
+                <figcaption>Internal chassis, with its center of mass below the axle</figcaption>
+              </figure>
+            </div>
+            <div class="expand-media-row">
+              <figure class="expand-figure">
+                <img src="projects/eido_exploded.webp" alt="Exploded view of the EIDO chassis">
+                <figcaption>Exploded view of the chassis</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/eido_front.webp" alt="Front view of the EIDO assembly">
+                <figcaption>Full assembly, front view</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Design Evolution</h4>
+            <p>My first design, EIDO1A, used a much bulkier rim and chassis. I cut it because of its mass and replaced it with EIDO1B, which has a slimmer rim and a lighter, more open chassis.</p>
+            <div class="expand-media-row eido-compare">
+              <figure class="expand-figure">
+                <img src="projects/eido_proposal1.webp" alt="EIDO1A render">
+                <figcaption>EIDO1A, cut due to mass</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/eido_angle_a.webp" alt="EIDO1B final design render">
+                <figcaption>EIDO1B, the final design</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Build Progress</h4>
+            <p>I started printing EIDO1A early in the project, before its mass became a problem, and got as far as the complete rim with the belt track installed. The EIDO1B build is now underway, with the rim, chassis, drive motor, and belt track segments printed and laid out for assembly.</p>
+            <div class="expand-media-row eido-build">
+              <figure class="expand-figure">
+                <img src="projects/eido_build_1a.webp" alt="Printed EIDO1A rim with the belt track installed">
+                <figcaption>EIDO1A, printed early in the project</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/eido_build_1b.webp" alt="EIDO1B rim, chassis, drive motor, and belt track segments">
+                <figcaption>EIDO1B parts laid out for assembly</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Simulation &amp; Control</h4>
+            <p>I modeled the vehicle in MuJoCo, using the SolidWorks CAD as visual meshes over a physics model of three rigid bodies and two joints. Two modeling choices ended up mattering more than anything else. The belt drive is represented as a geared hinge rather than a contact problem, because the rollers and belt teeth make the chassis-to-wheel connection behave exactly like one. The tire is modeled as a rounded torus rather than a flat cylinder. With a cylinder, steering authority came out about 40 times too small, and the wheel could sit still on its edge like a coin, which a real wheel cannot do.</p>
+            <p>The controller consists of two independent cascades running at 200 Hz. It only uses information that a chassis-mounted IMU and a wheel encoder could provide, so in principle the same controller could run on the real hardware. For speed, a PI loop sets a pitch target and an inner PD loop drives the motor to reach it. For steering, a single proportional gain on heading error commands the counterweight, along with a small roll-rate damping term filtered at 2.5 Hz. I intentionally left out a roll-angle loop, for reasons covered below.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Key Findings</h4>
+            <figure class="expand-figure full-width eido-plot">
+              <img src="projects/eido_studies.webp" alt="Design study plots: drive torque, passive stability, and steering map">
+              <figcaption>Design studies: drive torque limit, passive roll stability, and the steering map</figcaption>
+            </figure>
+            <p class="expand-finding"><strong>The counterweight steers, but it can't balance.</strong> Moving a 0.80 kg mass 27 mm in a 4 kg vehicle shifts the overall center of mass by only 5.4 mm. That works out to about 1.4° of equivalent lean, which is nowhere near enough to catch a fall.</p>
+            <p class="expand-finding"><strong>The wheel balances itself above a critical speed.</strong> With the counterweight locked in place, a 2° lean recovers at 1.2 m/s and above, but at 1.0 m/s and below the wheel falls no matter what the controller does. A physical build therefore has to be launched while already rolling.</p>
+            <p class="expand-finding"><strong>Steering is almost perfectly linear.</strong> Yaw rate is proportional to counterweight offset over the full 54 mm stroke, reaching about 13°/s at 1.6 m/s. As a result, the heading controller needs only a single proportional gain.</p>
+            <p class="expand-finding"><strong>Drive torque is limited by the chassis, not the motor.</strong> Past about 70% of the chassis pendulum's restoring torque, the chassis swings over the top instead of driving the wheel forward. A larger motor would not help, but a lower chassis center of mass would.</p>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Closed-Loop Results</h4>
+            <div class="expand-table-wrap">
+              <table class="expand-table">
+                <thead>
+                  <tr><th>Scenario</th><th>Command</th><th>Heading error</th><th>Peak lean</th><th>Counterweight travel</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>S-turn</td><td>±30° heading, 1.6 m/s</td><td>0.62°</td><td>1.48°</td><td>25.0 mm</td></tr>
+                  <tr><td>Circle</td><td>5.7°/s ramp, 1.4 m/s</td><td>5.45°</td><td>1.09°</td><td>11.2 mm</td></tr>
+                  <tr><td>Disturbance</td><td>12 N side impulse, 1.6 m/s</td><td>0.04°</td><td>4.77°</td><td>24.2 mm</td></tr>
+                  <tr><td>Below critical speed</td><td>0.8 m/s launch</td><td colspan="3">Fell over at t = 1.68 s</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="expand-media-row eido-plots">
+              <figure class="expand-figure">
+                <img src="projects/eido_sturn.webp" alt="S-turn heading response plot">
+                <figcaption>S-turn at 1.6 m/s. The straight ramps show the counterweight slewing at its steering limit.</figcaption>
+              </figure>
+              <figure class="expand-figure">
+                <img src="projects/eido_disturb.webp" alt="Lateral impulse rejection heading plot">
+                <figcaption>Recovery from a 12 N sideways shove, settling to 0.04° of heading error</figcaption>
+              </figure>
+            </div>
+          </div>
+          <hr class="expand-divider">
+          <div class="expand-section">
+            <h4>Lessons &amp; Next Steps</h4>
+            <p>Three modeling bugs produced results that looked convincing but were completely wrong: a flat tire profile, a sign error in the launch spin, and a poorly chosen averaging window for one metric. I caught each of them by checking the simulation against something I could verify independently, such as hand calculations, no-slip rolling kinematics, and the full time traces. The biggest lesson for me was that three lines of arithmetic would have revealed the counterweight's limited balance authority before I spent any time tuning a balance controller.</p>
+            <p>The next step is finishing the EIDO1B build and testing it with a rolling launch rather than a stationary start. After that, I plan to add realistic sensor noise to the simulation and run a sensitivity sweep on the estimated masses. A small reaction wheel used only at low speed could also give the design the low-speed balance it currently lacks.</p>
+          </div>`
+      },
       granular: {
         title: 'Granular Synthesizer',
         icon: 'icons/Nexus.svg',
@@ -700,7 +846,7 @@
         body: `
           <div class="expand-section">
             <h4>Overview</h4>
-            <p>A real-time granular synthesis VST3 plugin built with the JUCE C++ framework, fully compatible with DAWs like Ableton Live and FL Studio. The plugin deconstructs incoming audio into micro-sound grains and resynthesizes them into new textures by controlling grain size, timing, pitch, density, and randomness — originally scoped for FPGA deployment, then pivoted to software to prioritize flexibility and rapid iteration.</p>
+            <p>A real-time granular synthesis VST3 plugin built with the JUCE C++ framework, fully compatible with DAWs like Ableton Live and FL Studio. The plugin deconstructs incoming audio into micro-sound grains and resynthesizes them into new textures by controlling grain size, timing, pitch, density, and randomness. It was originally scoped for FPGA deployment, then pivoted to software to prioritize flexibility and rapid iteration.</p>
           </div>
           <hr class="expand-divider">
           <div class="expand-section">
@@ -734,7 +880,7 @@
         body: `
           <div class="expand-section">
             <h4>Overview</h4>
-            <p>A data-conservative Android security system that eliminates storage waste by isolating and storing only human subjects — not entire frames. People are detected via background subtraction against a calibration image, cropped to tight bounding boxes, and assigned unique identity labels through Euclidean color distance comparison, enabling cross-reference across footage with minimal storage overhead.</p>
+            <p>A data-conservative Android security system that eliminates storage waste by isolating and storing only human subjects rather than entire frames. People are detected via background subtraction against a calibration image, cropped to tight bounding boxes, and assigned unique identity labels through Euclidean color distance comparison, enabling cross-reference across footage with minimal storage overhead.</p>
           </div>
           <hr class="expand-divider">
           <div class="expand-section">
@@ -742,11 +888,11 @@
             <div class="expand-media-row">
               <figure class="expand-figure">
                 <img src="projects/android_single.png" alt="Single person detection">
-                <figcaption>Single subject detection — labeled, timestamped, with top six color composition displayed</figcaption>
+                <figcaption>Single subject detection: labeled, timestamped, with top six color composition displayed</figcaption>
               </figure>
               <figure class="expand-figure">
                 <img src="projects/android_multiple.png" alt="Multiple object detection">
-                <figcaption>Multi-subject detection — unique labels and color profiles assigned per person</figcaption>
+                <figcaption>Multi-subject detection with unique labels and color profiles assigned per person</figcaption>
               </figure>
             </div>
           </div>
@@ -757,7 +903,7 @@
               <div>
                 <p>Live frames are bitmask-differenced against a calibration image to isolate foreground subjects. Canny edge detection outlines each subject, and a custom flood-fill algorithm groups edges by orientation. Groups are reduced to their average pixel position, then density-based clustering forms tight bounding box proposals around each person.</p>
                 <p>Each proposal is analyzed with a k-means implementation to extract the six dominant colors from subjects. These color vectors are compared against stored entries via Euclidean distance to either assign an existing label or register a new identity.</p>
-                <p>Fully manual implementations of flood-fill, DB-scan clustering, and k-means color analysis — no external CV libraries beyond OpenCV for Canny.</p>
+                <p>Fully manual implementations of flood-fill, DB-scan clustering, and k-means color analysis, with no external CV libraries beyond OpenCV for Canny.</p>
               </div>
               <figure class="expand-figure">
                 <img src="projects/android_pipeline.png" alt="Security system pipeline diagram">
@@ -775,7 +921,7 @@
         body: `
           <div class="expand-section">
             <h4>Overview</h4>
-            <p>A mouse-shaped robotic cat toy built from scratch with a custom PCB, CAD-designed enclosure, and Arduino firmware. Beyond basic movement, the toy features a distance-measuring laser for collision avoidance, a vibration sensor that detects when the cat catches it, and a microphone-and-speaker system for voice command interaction — allowing the user to locate or activate the toy hands-free. Received an Honorable Mention award at UIUC, placing in the top 7 among nearly 50 groups.</p>
+            <p>A mouse-shaped robotic cat toy built from scratch with a custom PCB, CAD-designed enclosure, and Arduino firmware. Beyond basic movement, the toy features a distance-measuring laser for collision avoidance, a vibration sensor that detects when the cat catches it, and a microphone-and-speaker system for voice command interaction, allowing the user to locate or activate the toy hands-free. Received an Honorable Mention award at UIUC, placing in the top 7 among nearly 50 groups.</p>
           </div>
           <hr class="expand-divider">
           <div class="expand-section">
@@ -811,11 +957,11 @@
             <div class="expand-media-row">
               <figure class="expand-figure">
                 <img src="projects/laser_led.png" alt="Motor operations demo">
-                <figcaption>Motor operation and laser-triggered directional changes — red LED for direction, green for motor steps</figcaption>
+                <figcaption>Motor operation and laser-triggered directional changes (red LED for direction, green for motor steps)</figcaption>
               </figure>
               <figure class="expand-figure">
                 <img src="projects/laser_treats.png" alt="Treat dispensing demo">
-                <figcaption>Vibration detection and treat dispensing — triggered after three detected catches</figcaption>
+                <figcaption>Vibration detection and treat dispensing, triggered after three detected catches</figcaption>
               </figure>
             </div>
           </div>`
@@ -837,7 +983,7 @@
             <div class="expand-media-row media-wide">
               <div>
                 <p>The backend establishes a Node.js connection to the GCP mySQL database, populating the frontend with live data across all pages. SQL stored procedures handle login and signup validation against stored credentials, while triggers maintain data integrity across post insertions, deletions, and edits.</p>
-                <p>Initial database population was automated via a Python script using the Spotify API, generating CSV files that seeded the mySQL tables with real song and artist data. The frontend is composed of TSX components styled with CSS, with each page — Posts, Artists, Music, and Friends — driven by parameterized SQL queries.</p>
+                <p>Initial database population was automated via a Python script using the Spotify API, generating CSV files that seeded the mySQL tables with real song and artist data. The frontend is composed of TSX components styled with CSS, with each page (Posts, Artists, Music, and Friends) driven by parameterized SQL queries.</p>
               </div>
               <figure class="expand-figure">
                 <img src="projects/harmonics_gcp.png" alt="GCP MySQL console">
@@ -869,7 +1015,7 @@
         body: `
           <div class="expand-section">
             <h4>Overview</h4>
-            <p>A recreation of the classic flash game Soccer Heads, implemented in SystemVerilog and C on a Microblaze FPGA board. Two players compete in a timed 2D soccer match — one controlled via keyboard, one by an onboard AI — with real-time physics, sprite animation, scorekeeping, and full VGA/HDMI display output.</p>
+            <p>A recreation of the classic flash game Soccer Heads, implemented in SystemVerilog and C on a Microblaze FPGA board. Two players compete in a timed 2D soccer match (one controlled via keyboard, one by an onboard AI) with real-time physics, sprite animation, scorekeeping, and full VGA/HDMI display output.</p>
           </div>
           <hr class="expand-divider">
           <div class="expand-section">
@@ -921,7 +1067,7 @@
             <h4>Interface</h4>
             <figure class="expand-figure full-width">
               <img src="previews/handwriting.png" alt="Handwritten text recognition UI">
-              <figcaption>PyQt UI — canvas input before and after character drawing and classification</figcaption>
+              <figcaption>PyQt UI: canvas input before and after character drawing and classification</figcaption>
             </figure>
           </div>`
       }
@@ -948,7 +1094,15 @@
       document.getElementById('detailIcon').alt       = data.title;
       document.getElementById('detailTitle').textContent = data.title;
       document.getElementById('detailDate').textContent  = data.date;
-      document.getElementById('detailGithub').href    = data.github;
+      // GitHub button only when the project has a link
+      const ghBtn = document.getElementById('detailGithub');
+      if (data.github) {
+        ghBtn.href = data.github;
+        ghBtn.style.display = '';
+      } else {
+        ghBtn.removeAttribute('href');
+        ghBtn.style.display = 'none';
+      }
 
       const tagsEl = document.getElementById('detailTags');
       tagsEl.innerHTML = data.tags.map(t => `<span class="skill-chip">${t}</span>`).join('');
@@ -1001,18 +1155,18 @@
 
   <script>
     /* ── Experience showcase ──
-       Add renders here: { src: 'experience/your-file.jpg', caption: 'Short caption' }
+       Add renders here: { src: 'experience/your-file.webp', title: 'Bold title', caption: 'Description' }
        Optional: fit: 'contain' to show the whole image instead of filling the stage. */
     const EXP_RENDERS = {
       opticent: [
-        { src: 'experience/opticent-a.webp', caption: 'AuroraX4-C — our human corneal OCT imaging system. I designed its new sample arm, mounting frame, enclosure shell, and fixation light, shaping both its optomechanics and form.' },
-        { src: 'experience/opticent-b.webp', caption: 'Proposed AuroraX5-R — retinal OCT, consolidated onto a single height-adjustable table to shrink its footprint and reduce shipping, travel, and overall costs.' },
-        { src: 'experience/opticent-c.webp', caption: 'HaloM400 — our newly developed metrology system. I led the overall system design outside the optics: power management, cooling, enclosure, and I/O.' },
-        { src: 'experience/opticent-d.webp', caption: 'Opticent Website — replaced our outdated Wix site with a custom HTML/CSS static site, adding trackable metrics and greater control over customer interactions.' },
-        { src: 'experience/opticent-e.webp', caption: 'Product Logo Redesigns — refreshed branding for a more professional, memorable identity, and a showcase of my enjoyment of design.' }
+        { src: 'experience/opticent-a.webp', title: 'AuroraX4-C', caption: 'our human corneal OCT imaging system. I designed its new sample arm, mounting frame, enclosure shell, and fixation light, shaping both its optomechanics and form.' },
+        { src: 'experience/opticent-b.webp', title: 'Proposed AuroraX5-R', caption: 'retinal OCT, consolidated onto a single height-adjustable table to shrink its footprint and reduce shipping, travel, and overall costs.' },
+        { src: 'experience/opticent-c.webp', title: 'HaloM400', caption: 'our newly developed metrology system. I led the overall system design outside the optics: power management, cooling, enclosure, and I/O.' },
+        { src: 'experience/opticent-d.webp', title: 'Opticent Website', caption: 'replaced our outdated Wix site with a custom HTML/CSS static site, adding trackable metrics and greater control over customer interactions.' },
+        { src: 'experience/opticent-e.webp', title: 'Product Logo Redesigns', caption: 'refreshed branding for a more professional, memorable identity, and a showcase of my enjoyment of design.' }
       ],
       northwestern: [
-        { src: 'experience/northwestern-a.webp', caption: 'Closed-Loop Retinal Stimulation Platform — my render of our DMD and tunable-lens optical setup, which delivers fundus camera-verified patterned stimuli to the living mouse retina at 6.7 μm resolution.' }
+        { src: 'experience/northwestern-a.webp', title: 'Closed-Loop Retinal Stimulation Platform', caption: 'my render of our DMD and tunable-lens optical setup, which delivers fundus camera-verified patterned stimuli to the living mouse retina at 6.7 μm resolution.' }
       ]
     };
 
@@ -1033,7 +1187,7 @@
       Object.entries(EXP_RENDERS).forEach(([job, list]) => {
         imgs[job] = list.map(r => {
           const el = document.createElement('img');
-          el.src = r.src; el.alt = r.caption || ''; el.decoding = 'async'; el.loading = 'lazy';
+          el.src = r.src; el.alt = r.title || r.caption || ''; el.decoding = 'async'; el.loading = 'lazy';
           if (r.fit === 'contain') el.classList.add('fit-contain');
           imgWrap.appendChild(el);
           return el;
@@ -1046,18 +1200,18 @@
         const list = EXP_RENDERS[job] || [];
         Object.values(imgs).flat().forEach(el => el.classList.remove('is-active'));
         if (imgs[job] && imgs[job][idx]) imgs[job][idx].classList.add('is-active');
-        // "Title — description" renders as a bold title line over the description
-        const text = list[idx] ? list[idx].caption : '';
-        const [title, ...rest] = text.split(' — ');
+        // Bold title line over the description
+        const item = list[idx] || {};
         caption.replaceChildren();
-        const t = document.createElement('span');
-        t.className = 'exp-caption-title'; t.textContent = title;
-        caption.appendChild(t);
-        if (rest.length) {
+        if (item.title) {
+          const t = document.createElement('span');
+          t.className = 'exp-caption-title'; t.textContent = item.title;
+          caption.appendChild(t);
+        }
+        if (item.caption) {
           const d = document.createElement('span');
-          d.className = 'exp-caption-desc';
-          const desc = rest.join(' — ');
-          d.textContent = desc.charAt(0).toUpperCase() + desc.slice(1);
+          d.className = item.title ? 'exp-caption-desc' : 'exp-caption-title';
+          d.textContent = item.caption.charAt(0).toUpperCase() + item.caption.slice(1);
           caption.appendChild(d);
         }
         const multi = list.length > 1;

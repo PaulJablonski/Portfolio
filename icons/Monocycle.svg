@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer wheel -->
+  <circle cx="128" cy="128" r="106" stroke-width="16"/>
+  <!-- Inner belt ring -->
+  <circle cx="128" cy="128" r="84" stroke-width="6"/>
+  <!-- Chassis: hub at center, frame down to the rim -->
+  <path d="M128 128 L70 190 Q128 222 186 190 Z" stroke-width="14"/>
+  <!-- Hub / counterweight rail through the center -->
+  <circle cx="128" cy="128" r="15" fill="#000" stroke-width="0"/>
+</svg>

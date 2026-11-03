@@ -304,7 +304,7 @@
   .project-body .card-icon { width: 26px; height: 26px; }
   .project-info-left h3 { font-size: 13px; }
 
-  /* Detail overlay full-screen on mobile — transparent bg, no left-edge fade needed */
+  /* Detail overlay full-screen on mobile - transparent bg, no left-edge fade needed */
   .project-detail {
     left: 0;
     padding: 0;
@@ -478,7 +478,7 @@
 }
 
 /* ═══════════════════════════════════════════════
-   EXPERIENCE SHOWCASE — tablet & phone
+   EXPERIENCE SHOWCASE - tablet & phone
    Stacks as: job selectors → render stage → description
    ═══════════════════════════════════════════════ */
 /* Layout switches on the section's own width (container query), since the
@@ -528,7 +528,7 @@
 }
 
 
-/* Education cards — phone sizing */
+/* Education cards - phone sizing */
 @media (max-width: 700px) {
   .edu-card { padding: 20px 20px 18px; }
   .edu-card:hover { transform: scale(1.03); }
@@ -539,4 +539,24 @@
   .edu-card-school { font-size: 13px; }
   .edu-card-body { margin-bottom: 18px; }
   .edu-card-gpa { font-size: 24px; }
+}
+
+
+/* Featured project card - stack the image above the text on narrower screens */
+@media (max-width: 1100px) {
+  .project-card.is-featured { flex-direction: column; }
+  .project-card.is-featured .project-preview {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--card-border);
+  }
+}
+
+@media (max-width: 700px) {
+  .project-card.is-featured .project-body { padding: 18px 18px 20px; gap: 12px; }
+  .featured-title h3 { font-size: 17px; }
+  .project-card.is-featured .featured-title .card-icon { width: 30px; height: 30px; }
+  .featured-summary { font-size: 13px; line-height: 1.65; }
+  .featured-date { font-size: 12px; }
 }
