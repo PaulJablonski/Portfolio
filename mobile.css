@@ -560,3 +560,90 @@
   .featured-summary { font-size: 13px; line-height: 1.65; }
   .featured-date { font-size: 12px; }
 }
+
+
+/* ═══════════════════════════════════════════════
+   PHONE (≤ 700px): project popup close button + Experience carousel
+   Uses plain media queries so it works on older / in-app browsers too
+   ═══════════════════════════════════════════════ */
+@media (max-width: 700px) {
+
+  /* Floating close button pinned to the bottom of the screen
+     (the top corner sits under the mobile menu bar) */
+  .detail-close {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    width: 54px;
+    height: 54px;
+    background: rgba(28, 28, 28, 0.9);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--fg);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+    z-index: 20;
+  }
+
+  .detail-close svg { width: 16px; height: 16px; }
+
+  /* Room so the last paragraph isn't hidden behind the button */
+  .detail-scroll { padding-bottom: 120px; }
+  .detail-header { padding-right: 0; }
+
+  /* Experience: jobs → image → caption → description, single column */
+  .exp-showcase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .exp-col  { display: contents; }
+  .exp-jobs { order: 1; display: grid; grid-template-columns: minmax(0, 1fr); }
+  .exp-sep  { display: none; }
+  .exp-desc { order: 3; }
+
+  /* Square image area (renders are square, so nothing is cropped),
+     caption sits below the image instead of over it */
+  .exp-stage {
+    order: 2;
+    min-height: 0;
+    height: auto;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-stage-images {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  @supports not (aspect-ratio: 1 / 1) {
+    .exp-stage-images { height: 0; padding-top: 100%; }
+  }
+
+  /* Swipe replaces the arrows on phones */
+  .exp-arrow { display: none; }
+
+  .exp-strip {
+    position: static;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px 16px;
+    background: none;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .exp-caption { text-shadow: none; }
+  .exp-caption-title { font-size: 14px; }
+  .exp-caption-desc  { font-size: 13px; color: var(--muted); }
+
+  /* Bigger tap targets for the thin progress bars */
+  .exp-dots button { position: relative; }
+  .exp-dots button::before {
+    content: '';
+    position: absolute;
+    inset: -12px -3px;
+  }
+}
