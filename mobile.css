@@ -622,8 +622,17 @@
     .exp-stage-images { height: 0; padding-top: 100%; }
   }
 
-  /* Swipe replaces the arrows on phones */
-  .exp-arrow { display: none; }
+  /* Arrows centered on the image, always visible (no hover on phones) */
+  .exp-arrow {
+    top: 50%;
+    opacity: 1;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .exp-arrow svg { width: 16px; height: 16px; }
+  .exp-arrow.prev { left: 10px; }
+  .exp-arrow.next { right: 10px; }
 
   .exp-strip {
     position: static;
