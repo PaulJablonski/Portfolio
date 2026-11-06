@@ -656,3 +656,35 @@
     inset: -12px -3px;
   }
 }
+
+
+/* ═══════════════════════════════════════════════
+   EDGE-TO-EDGE ON PHONES
+   viewport-fit=cover (in index.html) lets the page, and the star background,
+   draw behind Safari's toolbars. These insets keep real content clear of
+   the notch, status bar and home indicator.
+   ═══════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .mobile-topbar {
+    height: calc(56px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  .main { padding-top: calc(56px + env(safe-area-inset-top, 0px)); }
+
+  section {
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  .copyright        { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .scroll-indicator { bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
+
+  .detail-scroll {
+    padding-top: calc(68px + env(safe-area-inset-top, 0px));
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+}

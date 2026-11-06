@@ -11,6 +11,7 @@
 }
 
 html {
+  background: var(--bg);   /* matches the page behind browser toolbars / overscroll */
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
 }
