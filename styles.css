@@ -65,7 +65,13 @@ body.is-loading .copyright {
 
 #animation-background {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Full screen height, including the area behind mobile browser toolbars
+     (Safari's bottom bar). 100lvh = the viewport with toolbars hidden. */
+  height: 100vh;
+  height: 100lvh;
   z-index: 0;
   pointer-events: none;
 }
